@@ -1,0 +1,326 @@
+<h2>Tell us more About Yourself!</h2>
+<p class="text-muted">you can send us your Information to compelete your Registration.</p>
+
+
+
+<div *ngIf="!KYCVerified" class="row">
+
+    <div class="col">
+        <div widget class="card border-0 box-shadow">
+            <div class="card-header transparent border-0 text-muted">
+                <h5 class="mb-0">KYC form</h5>
+            </div>
+            <div *ngIf="!confirmed" class="card-body widget-body">
+                <div class="row">
+                    <div *ngFor="let step of steps; let last = last" class="col-md-3 col-sm-6 col-12 step text-center">
+                        <div class="d-flex justify-content-center align-items-center text-white pl-2 pr-2 mb-2 rounded step-content" [class.bg-success]="step.valid"
+                            [class.bg-danger]="step.active" [class.confirmed]="confirmed">
+                            <i class="fa {{ step.icon }} mr-2" aria-hidden="true"></i>
+                            <span class="step-name">{{step.name}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngFor="let step of steps" [hidden]="!step.active" class="col">
+                    <div class="row">
+                        <h4 class="mt-3 mb-3">
+                            <i class="fa {{ step.icon }}"></i> {{step.name}}</h4>
+                    </div>
+
+
+                    <form *ngIf="step.name=='Start ID Verification'" [formGroup]="accountForm" class="row bg-light pt-2">
+                        <!-- <div class="col-md-12 welcome">
+                            <p>please have your ID ready for verification</p>
+
+                            <p>this verification process is designed to confirm your identity and protect you from identity theft</p>
+                        </div> -->
+
+                        <div class="col-lg-12 col-md-12 mb-4">
+                            <div class="card card-outline-success text-center">
+                                <div class="card-body">
+                                    <blockquote class="card-bodyquote">
+                                        <p >please have your ID ready for verification</p>
+                                        <footer>this verification process is designed to confirm your identity and protect you from identity theft </footer>
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
+
+
+                    <form *ngIf="step.name=='Personal Information'" [formGroup]="personalForm" class="row bg-light pt-2">
+
+
+                        <div class="form-group col-md-12" [ngClass]="{'has-danger' : step.hasError && personalForm.get('firstname').hasError('required'), 'has-success' : !personalForm.get('firstname').hasError('required') }">
+                            <label class="form-control-label">First Name</label>
+                            <input style="max-width:50%;" formControlName="firstname" class="form-control" [ngClass]="{'form-control-danger' :  personalForm.get('firstname').hasError('required'), 'form-control-success' :  !personalForm.get('firstname').hasError('required') }"
+                                type="text">
+                            <small class="text-danger" *ngIf="step.hasError && personalForm.get('firstname').hasError('required')">First Name is required</small>
+    
+                        </div>
+
+                        <div class="form-group col-md-12" [ngClass]="{'has-danger' : step.hasError && personalForm.get('lastname').hasError('required'), 'has-success' : !personalForm.get('lastname').hasError('required') }">
+                            <label class="form-control-label">Last Name</label>
+                            <input style="max-width:50%;" formControlName="lastname" class="form-control" [ngClass]="{'form-control-danger' :  personalForm.get('lastname').hasError('required'), 'form-control-success' :  !personalForm.get('lastname').hasError('required') }"
+                                type="text">
+                            <small class="text-danger" *ngIf="step.hasError && personalForm.get('lastname').hasError('required')">Last Name is required</small>
+                        </div>
+
+
+
+
+                        <div class="form-group col-md-12" [ngClass]="{'has-danger' : step.hasError && personalForm.get('phone').hasError('required'), 'has-success' : !personalForm.get('phone').hasError('required') }">
+                            <label class="form-control-label">Phone</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-phone"></i>
+                                    </span>
+                                </div>
+                                <input style="max-width:48%;" formControlName="phone" class="form-control" [ngClass]="{'form-control-danger' :  personalForm.get('phone').hasError('required'), 'form-control-success' :  !personalForm.get('phone').hasError('required') }"
+                                    type="number">
+                            </div>
+                            <small class="text-danger" *ngIf="step.hasError && personalForm.get('phone').hasError('required')">Phone is required</small>
+                        </div>
+
+                        <div class="form-group col-md-12" id="walletDiv" [ngClass]="{'has-danger' : (step.hasError&& personalForm.get('wallet').hasError('incorrect')) || (step.hasError&& personalForm.get('wallet').hasError('required')), 'has-success' : !personalForm.get('wallet').hasError('required') &&  !personalForm.get('wallet').hasError('incorrect') }">
+                            <label class="form-control-label">Wallet Address</label>
+                            <input (input)='isAddress($event.target.value)' style="max-width:50%;" formControlName="wallet" class="form-control" [ngClass]="{'form-control-danger' :  (step.hasError&& personalForm.get('wallet').hasError('incorrect')) || (step.hasError&& personalForm.get('wallet').hasError('required')), 'form-control-success' :  !personalForm.get('wallet').hasError('required') && !personalForm.get('wallet').hasError('required') }"
+                                type="text">
+                            <small class="text-danger" *ngIf="step.hasError && personalForm.get('wallet').hasError('required')">required</small>
+                            <small class="text-danger" *ngIf="step.hasError && personalForm.get('wallet').hasError('incorrect')">incorrect Wallet Address</small>
+
+                        </div>
+                        <div class="form-group col-md-12" [ngClass]="{'form-control-danger' : step.hasError&& personalForm.get('birth').hasError('required'), 'form-control-success' : !personalForm.get('birth').hasError('required') }">
+                            <label style="margin-right:1%" for="input-12">Birth Date</label>
+                            <mat-form-field class="example-full-width">
+                                <input formControlName="birth" matInput [min]="minDate" [max]="maxDate" [errorStateMatcher]="matcher" [matDatepicker]="picker"
+                                    placeholder="Select your Birth Date">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                                <mat-error *ngIf="dateFormControl.hasError('date')">
+                                    Birth Date is
+                                    <strong>Not Valid</strong>
+                                </mat-error>
+                                <mat-error *ngIf="step.hasError&& personalForm.get('birth').hasError('required')">
+                                    Birth Date is
+                                    <strong>required</strong>
+                                </mat-error>
+                            </mat-form-field>
+                            <!-- <input style="max-width:50%;" [ngClass]="{'form-control-danger' :  personalForm.get('birth').hasError('required'), 'form-control-success' :  !personalForm.get('birth').hasError('required') }"
+                                formControlName="birth" class="form-control" id="input-12" type="date" value="2011-08-19"> -->
+                        </div>
+                    </form>
+
+                    <form *ngIf="step.name=='Address Information'" id="secondForm" [formGroup]="AddressForm" class="row bg-light pt-2">
+
+                        <div class="form-group col-md-12">
+                            <label class="form-control-label">Address</label>
+                            <textarea  [ngClass]="{'form-control-danger' :  AddressForm.get('address').hasError('required'), 'form-control-success' :  !AddressForm.get('address').hasError('required') }"
+                                formControlName="address" class="form-control"></textarea>
+                            <small class="text-danger" *ngIf="step.hasError && AddressForm.get('address').hasError('required')">Address Is required</small>
+                        </div>
+                        <div class="col-lg-4 mb-4">
+                            <h6>Image upload</h6>
+                            <!-- <input type="file"  (change)="image($event)" formControlName="image" > -->
+                            <input type="file" accept="image/*" formControlName="image" id="imginput" (change)="image($event)"  class="img-upload-btn"  />
+
+                            <button class="btn btn-info btn-block rounded-0" type="button">
+                                <span *ngIf="!photo">
+                                    <i class="fa fa-upload"></i> Select Image... </span>
+                                <span *ngIf="photo">
+                                    <i class="fa fa-refresh"></i> Change Image... </span>
+                            </button>
+
+                            <div class="image-wrapper">
+                                <i *ngIf="photo" class="fa fa-times delete-img" (click)="removeImage()"></i>
+                                <img [attr.src]="photo" *ngIf="photo" width="100%">
+                                <img src="assets/img/app/no-image.png" *ngIf="!photo" width="100%">
+                            </div>
+
+
+                            <div class="err">{{fileExtensionMessage}}</div>
+                        </div>
+                    </form>
+
+                    <div *ngIf="step.name=='Confirm Your Details'" class="row bg-light pt-2">
+                        <div class="col-2">
+                            <strong class="text-truncate">Full Name</strong>
+                        </div>
+                        <div class="col-10">
+                            <i>{{details.fullname}}</i>
+                        </div>
+                        <div class="col-2">
+                            <strong class="text-truncate">wallet</strong>
+                        </div>
+                        <div class="col-10">
+                            <i>{{details.wallet}} &nbsp;</i>
+                        </div>
+
+                        <div class="col-2">
+                            <strong class="text-truncate">Phone NO.</strong>
+                        </div>
+                        <div class="col-10">
+                            <i>{{details.phone}}</i>
+                        </div>
+                        <div class="col-2">
+                            <strong class="text-truncate">Address</strong>
+                        </div>
+                        <div class="col-10">
+                            <i>{{details.address}} &nbsp;</i>
+                        </div>
+                        <div class="col-2">
+                            <strong class="text-truncate">Passport Image</strong>
+                        </div>
+                        <div class="col-10">
+                            <img [attr.src]="photo" *ngIf="image" width="50%">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col">
+                        <button  class="btn btn-primary pull-left" (click)="prev()">
+                            <i  class="fa fa-chevron-left arrow"></i>&nbsp; Prev Step</button>
+
+                                <button *ngIf="!steps[steps.length-1].active" [disabled]=" fileExtensionError || !haveImg " class="btn btn-primary pull-right" (click)="next()">Next Step &nbsp;
+                                    <i class="fa fa-chevron-right arrow"></i>
+                                    
+                            </button>
+
+
+                        <button *ngIf="steps[steps.length-1].active" class="btn btn-primary pull-right" (click)="confirm()">Confirm &nbsp;
+                            <i class="fa fa-check arrow"></i>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div *ngIf="confirmed" class="card-body widget-body">
+
+                <div class="col bg-light p-5">
+                    <div class="d-flex justify-content-center align-items-center flex-column bg-light confirmed-content">
+                        <i *ngIf="dataSuccess" class="fa fa-check text-success" aria-hidden="true"></i>
+                        <h2 class="p-3">{{dataMsg}}</h2>
+
+                        <p class="p-2">You will receive an email confirmation shortly at {{this.details.email}}</p>
+                        <button class="btn btn-success" (click)="home()">Back to home</button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div  *ngIf="KYCVerified" class="verified">
+<p><i class="fa fa-check text-success" aria-hidden="true"></i>Your KYC has been Verified</p>
+
+</div>
+<div class="row">
+    <div class="col-md-3"></div>
+        <div *ngIf="KYCVerified" class="col-md-6 preview pt-2 ">
+                <div class="element col-md-12">
+                        <div class="verifyTxt col-md-2">
+                                <strong class="text-truncate">First Name</strong>
+                            </div>
+                            <div class="verifyTitle">
+                                <i>{{firstName}} &nbsp;</i>
+                            </div>
+                </div>
+            
+                
+                <div class="element col-md-12">
+                        <div class="verifyTxt col-md-2">
+                                <strong class="text-truncate">lastname</strong>
+                            </div>
+                            <div class="verifyTitle">
+                                <i>{{lastname}} &nbsp;</i>
+                            </div>
+                    </div>
+            
+            
+                <div class="element col-md-12">
+                        <div class="verifyTxt col-md-2">
+                                <strong class="text-truncate">Phone NO.</strong>
+                            </div>
+                            <div class="verifyTitle">
+                                <i>{{telephone}}</i>
+                            </div>
+                    </div>
+            
+                <div class="element col-md-12">
+                        <div class="verifyTxt col-md-2">
+                                <strong class="text-truncate">Address</strong>
+                            </div>
+                            <div class="verifyTitle">
+                                <i>{{address}} &nbsp;</i>
+                            </div>
+                    </div>
+            
+            
+            
+                <div class="element col-md-12">
+                        <div class="verifyTxt col-md-2">
+                                <strong class="text-truncate">wallet</strong>
+                            </div>
+                            <div class="verifyTitle">
+                                <i>{{walletAddress}} &nbsp;</i>
+                            </div>
+                    </div>
+            
+            
+                <div class="element col-md-12">
+
+
+                        
+                        <div class="modal fade" id="noheader-modal" tabindex="-1" role="dialog" style="display: none;">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-body">
+                                            <img src='/{{passImg}}'>                            
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="verifyTxt col-md-2">
+                                <button type="button" class="btn btn-secondary mr-1" data-toggle="modal" data-target="#noheader-modal">Tap to See Passport Image</button>
+                            </div>
+                    </div>
+            
+            
+            
+            
+                <!-- <div class="col-5" style="    margin: 29px 34px;">
+                    <button class="btn btn-gray btn-lg btn-block"  data-toggle="modal" data-target="#exampleModalCenter" type="button">Edite form</button>
+                    
+                </div> -->
+            <!-- Modal -->
+            <!-- <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLongTitle">Warning!!</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      If You want to change any parts of your KYC form please Send Support Ticket... 
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+</div>
+

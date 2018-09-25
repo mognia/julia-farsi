@@ -1,0 +1,112 @@
+<div class="title">
+    <p style="    font-size: 25px;">تایید اطلاعات احراز هویت</p>
+</div>
+<!-- <div>
+    <p>
+        here you can Verify or not your useres information</br>
+        by just clicking on correct or incorrect values you can accept or denied informations
+    </p>
+</div> -->
+<mat-accordion *ngIf="!noUser">
+
+    <mat-expansion-panel (click)="getmail(user.email)" (opened)="panelOpenState = true" (closed)="panelOpenState = false" *ngFor="let user of users">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{user.email}}
+            </mat-panel-title>
+            <mat-panel-description>
+
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <form [formGroup]="form"  (ngSubmit)="onSubmit(form.value)"  class="text-right mt-4">
+
+            <div class="form-group">
+                    <mat-radio-group class="rad" formControlName="verifyFirstName">
+                            <mat-radio-button  [value]="true">درست</mat-radio-button>
+                            <mat-radio-button  [value]="false">نادرست</mat-radio-button>
+                          </mat-radio-group>
+                          <p class="val">{{user.firstName}}</p>
+                <label class="label">: نام</label>
+
+                    
+
+            </div>
+            <div class="form-group">
+                    <mat-radio-group class="rad" formControlName="verifyLastName">
+                            <mat-radio-button  [value]="true">درست</mat-radio-button>
+                            <mat-radio-button  [value]="false"> نادرست</mat-radio-button>
+                          </mat-radio-group>
+
+                        <p class="val">{{user.lastName}}</p>
+                        <label class="label">: نام خانوادگی</label>             
+
+                </div>
+                <div class="form-group">
+                        <mat-radio-group class="rad" formControlName="verifyBirthDate">
+                                <mat-radio-button  [value]="true">درست</mat-radio-button>
+                                <mat-radio-button  [value]="false">نادرست</mat-radio-button>
+                              </mat-radio-group>
+
+                        <p class="val">{{user.birthDate}}</p>
+                        <label class="label">: تاریخ تولد</label>          
+
+                </div>
+                <div class="form-group">
+                        <mat-radio-group class="rad" formControlName="verifyAddress">
+                                <mat-radio-button  [value]="true">درست</mat-radio-button>
+                                <mat-radio-button  [value]="false">نادرست</mat-radio-button>
+                              </mat-radio-group>
+
+                        <p class="val">{{user.address}}</p>
+                        <label class="label">: آدرس</label>
+
+                </div>
+                <div class="form-group">
+                        <mat-radio-group class="rad" formControlName="verifyTelephone">
+                                <mat-radio-button  [value]="true">درست</mat-radio-button>
+                                <mat-radio-button  [value]="false">نادرست</mat-radio-button>
+                              </mat-radio-group>
+
+                        <p class="val">{{user.telephone}}</p>
+                        <label class="label">: شماره تلفن</label>  
+
+                </div>
+                <div class="form-group">
+                        <mat-radio-group class="rad" formControlName="verifyWallet">
+                                <mat-radio-button  [value]="true">درست</mat-radio-button>
+                                <mat-radio-button  [value]="false">نادرست</mat-radio-button>
+                              </mat-radio-group>
+
+                        <p class="val">{{user.walletAddress}}</p>
+                        
+                        <label class="label">آدرس ولت:</label>
+                </div>
+                <div class="form-group">
+                        <mat-radio-group class="rad" formControlName="verifyPassportImage">
+                                <mat-radio-button  [value]="true">درست</mat-radio-button>
+                                <mat-radio-button  [value]="false">نادرست</mat-radio-button>
+                              </mat-radio-group>
+
+
+                        <img src="/{{user.passportImageAddress}}" alt="">
+                        
+                        <label class="label">عکس پاسپورت</label>
+                </div>
+            <button  class="btn" type="submit">تایید</button>
+        </form>
+
+    </mat-expansion-panel>
+</mat-accordion>
+
+<div class="noUser" *ngIf="noUser">
+<p>هنوز کابری درخواست تایید احراز هویت نداده است</p>
+</div>
+
+<!-- <nav style="margin-top: 2%" aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link">Previous</a></li>
+            <li class="page-item active"><a class="page-link" >1</a></li>
+
+            <li class="page-item"><a class="page-link" >Next</a></li>
+        </ul>
+    </nav> -->

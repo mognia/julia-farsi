@@ -1,0 +1,27 @@
+<div class="d-flex justify-content-center align-items-center w-100 h-100 login-container">
+    <div class="col-xl-4 col-md-6 col-10">
+        <div class="card border-0 box-shadow rounded-0">
+            <div class="card-header d-flex justify-content-center align-items-center border-0 box-shadow">
+                <i class="fa fa-sign-in" aria-hidden="true"></i>
+            </div>
+            <div class="card-body text-center pb-1">
+                <h2>Forget Password</h2>
+                <a routerLink="/register" class="transition">Don't have an account? Sign up now!</a>
+
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="text-left mt-4">
+                    <div class="form-group">
+                        <input [formControl]="email" class="form-control validation-field" placeholder="Email" type="text">                      
+                        <small class="text-danger" *ngIf="form.get('email').touched && form.get('email').hasError('required')">Email is required</small>                              
+                        <small class="text-danger" *ngIf="form.get('email').touched && form.get('email').hasError('email')">Invalid email address</small>
+                    </div>
+                    <div class="form-group">
+                        <button [disabled]="!form.valid" class="btn btn-block" type="submit">Send Me Verfication Email</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+       

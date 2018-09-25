@@ -1,0 +1,48 @@
+<flash-messages></flash-messages>  
+<div  *ngIf="!logdin" class="d-flex justify-content-center align-items-center w-100 h-100 register-container">
+    <div class="col-xl-4 col-md-6 col-10">
+        <div class="card border-0 box-shadow rounded-0">
+            <div class="card-header d-flex justify-content-center align-items-center border-0 box-shadow">
+                <i class="fa fa-registered" aria-hidden="true"></i>
+            </div>
+            <div class="card-body text-center pb-1">
+                <h2 style="color:aliceblue;">ایجاد حساب کاربری</h2>
+                <a routerLink="/login" class="transition">آیا حساب کاربری دارید؟ وارد شوید</a>
+
+                <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)" class="text-left mt-4">
+
+                    <div class="form-group">
+                        <input [formControl]="email" class="form-control validation-field" placeholder="ایمیل" type="text"> 
+                        <small class="text-danger" *ngIf="form.get('email').touched">
+                            <span *ngIf="form.get('email').hasError('required')">Email is required</span>
+                            <span *ngIf="form.get('email').hasError('invalidEmail')">Invalid email address</span>
+                        </small> 
+                    </div>
+                    <div class="form-group">
+                        <input [formControl]="password" class="form-control validation-field" placeholder="Password" type="رمز عبور" minlength="6">
+                         <small class="text-danger" *ngIf="form.get('password').touched">
+                            <span *ngIf="form.get('password').hasError('required')">Password is required</span>
+                            <span *ngIf="form.get('password').hasError('minlength')">Password isn't long enough, minimum of 6 characters</span>
+                        </small>                     
+                    </div>
+                    <div class="form-group">
+                        <input [formControl]="confirmPassword" class="form-control validation-field" placeholder="تکرار رمز عبور" type="password">
+                        <small class="text-danger" *ngIf="form.get('confirmPassword').touched">
+                            <span *ngIf="form.get('confirmPassword').hasError('required')">Confirm Password is required</span>
+                            <span *ngIf="form.get('confirmPassword').hasError('mismatchedPasswords')">Passwords do not match</span>
+                        </small> 
+                    </div>
+                    <div class="form-group">
+                            <input [formControl]="referal" class="form-control validation-field" placeholder="اگر کد معرف دارید وارد کنید" type="text">  
+                        </div>
+                    <div class="form-group">
+                        <p style="color:aliceblue;" class="terms">ایجاد حساب کاربری به منزله قبول <a class="transition terms" href="javascript:void(0);">قوانین و مقررات است</a></p>                  
+                    </div>             
+                    <div class="form-group">
+                        <button [disabled]="!form.valid" class="btn btn-block" type="submit">ثبت نام</button>
+                    </div>
+                </form>  
+            </div>
+        </div>
+    </div>
+</div>
