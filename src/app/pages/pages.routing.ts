@@ -9,6 +9,8 @@ import { ReferalComponent } from './referal/referal.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
 
 import { UsersListComponent } from './users-list/users-list.component';
+import { WithdrawComponent } from './withdraw/withdraw.component';
+import { ExchangerUserListComponent } from './exchanger-user-list/exchanger-user-list.component';
 export const routes: Routes = [
     {
         path: '', 
@@ -24,6 +26,8 @@ export const routes: Routes = [
             { path: 'UserList', component:UsersListComponent, data: { breadcrumb: 'Users List' } },
             { path: 'referal', component:ReferalComponent, data: { breadcrumb: 'Referals' } },
 
+            { path: 'withDraw', component:WithdrawComponent, data: { breadcrumb: 'user WithDraw' } },  
+            { path: 'ExchangerUserList', component:ExchangerUserListComponent, data: { breadcrumb: 'user WithDraw' } },
             { path: 'resetPass', component:ResetPassComponent, data: { breadcrumb: 'Reset Password' } },             
             { path: 'ticketing', loadChildren: 'app/pages/ticketing/ticketing.module#TicketingModule', data: { breadcrumb: 'Ticketing' } },
 

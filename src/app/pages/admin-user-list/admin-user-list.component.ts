@@ -15,7 +15,7 @@ export class AdminUserListComponent implements OnInit {
   editing = {};
   public form:FormGroup;
   public user:AbstractControl;
-  public admin:AbstractControl;
+  public exchanger:AbstractControl;
   public canChangeRoles:AbstractControl;
   public canVerifyKYC:AbstractControl;
   public email:AbstractControl;
@@ -39,14 +39,14 @@ export class AdminUserListComponent implements OnInit {
   constructor(router:Router, private authService:AuthService,private flashMessage: FlashMessagesService,fb:FormBuilder,) { 
     this.form = fb.group({
       user: [true],
-      admin: [false],
+      exchanger: [false],
       canChangeRoles: [false],
       canVerifyKYC:[false],
       email:['']
   });
   this.authService.getUserList();
   this.user = this.form.controls['user'];
-  this.admin = this.form.controls['admin'];
+  this.exchanger = this.form.controls['exchanger'];
   this.canChangeRoles = this.form.controls['canChangeRoles'];
   this.canVerifyKYC = this.form.controls['canVerifyKYC'];
   this.email = this.form.controls['email'];

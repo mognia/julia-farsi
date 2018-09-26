@@ -68,7 +68,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/verifykyc', form, { headers: headers })
+    return this.http.post('http://localhost:3000/admins/verifykyc', form, { headers: headers })
       // .map(res => res.json());
   }
   changeRole(form) {
@@ -78,7 +78,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/changeroles', form, { headers: headers })
+    return this.http.post('http://localhost:3000/admins/changeroles', form, { headers: headers })
       // .map(res => res.json());
   }
   getProfile() {
@@ -108,7 +108,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/users/verifykyc', { headers: headers })
+    return this.http.get('http://localhost:3000/admins/verifykyc', { headers: headers })
       // .map(res => res.json());
   }
 
@@ -137,7 +137,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/users/listroles', { headers: headers })
+    return this.http.get('http://localhost:3000/admins/listroles', { headers: headers })
     .map(result => result);
   }
   getUserListKyc(){
@@ -147,7 +147,7 @@ export class AuthService {
     this.loadToken();
     headers.append('Authorization', this.authToken);
     headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/users/listkyc', { headers: headers })
+    return this.http.get('http://localhost:3000/admins/listkyc', { headers: headers })
       // .map(res => res.json());
   }
 

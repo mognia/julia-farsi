@@ -13,6 +13,8 @@ export const verticalMenuItems = [
     new Menu (10, 'تغییر دسترسی', '/pages/ChangeRole', null, 'caret-right', null, false, 0,'admin'),
     new Menu (11, 'ریفرال', '/pages/referal', null, 'keyboard-o', null, false, 0,'user'),
     new Menu (12, 'لیست کاربران', '/pages/UserList', null, 'caret-right', null, false, 0,'admin'),
+    new Menu (13, 'خرید / فروش', '/pages/withDraw', null, 'keyboard-o', null, false, 0,'user'),
+    new Menu (14, 'جستوجوی کاربر', '/pages/ExchangerUserList', null, 'keyboard-o', null, false, 0,'user'),
     // new Menu (30, 'NGX DataTable', '/pages/tables/dynamic-tables/ngx', null, 'caret-right', null, false, 28,'admin'), 
 ]
 

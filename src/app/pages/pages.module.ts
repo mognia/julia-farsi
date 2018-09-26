@@ -41,6 +41,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 
 import { UsersListComponent } from './users-list/users-list.component';
+import { WithdrawComponent } from './withdraw/withdraw.component';
+import { ExchangerUserListComponent } from './exchanger-user-list/exchanger-user-list.component';
 
 
 
@@ -80,6 +82,10 @@ import { UsersListComponent } from './users-list/users-list.component';
     ResetPassComponent,
     
     UsersListComponent,
+    
+    WithdrawComponent,
+    
+    ExchangerUserListComponent,
 
 
   ],

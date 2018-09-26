@@ -37,8 +37,10 @@ export class SidebarComponent implements OnInit {
           const role = JSON.parse(roles)
           //here we extract the Role Title from role Object
           const roleTitle = role[0].roleTitle
+
           let isAdmin = this.IsAdmin(roleTitle);
           let isUser = this.IsUser(roleTitle); 
+          let isExchanger = this.isExchanger(roleTitle); 
           if (isAdmin) {
             
             for (const item in this.menuItems) {
@@ -56,6 +58,13 @@ export class SidebarComponent implements OnInit {
             this.menuItems = newMenuItem; 
             }
                  
+          }else if(isExchanger){
+            for (const item in this.menuItems) {
+              let newMenuItem = this.menuItems.filter(item => item.guard == 'exchanger'||item.guard == 'any')
+    
+            newArr.push(newMenuItem[0]);
+            this.menuItems = newMenuItem; 
+            }
           }
   
         }
@@ -71,6 +80,16 @@ export class SidebarComponent implements OnInit {
         }
         IsUser(roleTitle) {
           if (roleTitle == 'user') {
+            return true
+          }
+          else {
+            return false
+          }
+        }
+        isExchanger(roleTitle){
+
+          
+          if (roleTitle == 'exchanger') {
             return true
           }
           else {
