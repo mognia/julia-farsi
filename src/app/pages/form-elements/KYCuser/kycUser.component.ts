@@ -126,10 +126,13 @@ export class KycUserComponent implements OnInit{
         
         this.router = router;
         this.steps = [
-              {name: 'Start ID Verification', icon: 'fa-check', active: true, valid: true, hasError:false },
-            { name: 'Personal Information', icon: 'fa-user', active: false, valid: false, hasError: false },
-            { name: 'Address Information', icon: 'fa-credit-card', active: false, valid: false, hasError: false },
-            { name: 'Confirm Your Details', icon: 'fa-check-square-o', active: false, valid: false, hasError: false }
+            { name: 'Confirm Your Details',describ:'تایید اطلاعات', icon: 'fa-check-square-o', active: false, valid: false, hasError: false },
+            { name: 'Address Information',describ:'آدرس و عکس پاسپورت', icon: 'fa-credit-card', active: false, valid: false, hasError: false },
+            { name: 'Personal Information',describ:'اطلاعات شخصی', icon: 'fa-user', active: false, valid: false, hasError: false },
+              {name: 'Start ID Verification',describ:'آغاز پروسه', icon: 'fa-check', active: true, valid: true, hasError:false },
+
+
+
         ]
 
         this.accountForm = this.formBuilder.group({
@@ -159,18 +162,19 @@ export class KycUserComponent implements OnInit{
       if (personalForm.valid) {
         this.haveImg=false; 
       }
-        if (this.steps[this.steps.length - 1].active)
+
+        if (this.steps[this.steps.length - 4].active)
             return false;
 
         this.steps.some(function (step, index, steps) {
 
-            if (index < steps.length - 1) {
+            if (index > steps.length - 4) {
                 if (step.active) {
                     if(step.name=='Start ID Verification'){
                         if (accountForm.valid) {
                             step.active = false;
                             step.valid = true;
-                            steps[index+1].active=true;
+                            steps[index-1].active=true;
                             return true;
                         }
                         else{
@@ -181,7 +185,7 @@ export class KycUserComponent implements OnInit{
                         if (personalForm.valid) {
                             step.active = false;
                             step.valid = true;
-                            steps[index + 1].active = true;
+                            steps[index - 1].active = true;
                             return true;
                         }
                         else {
@@ -194,7 +198,7 @@ export class KycUserComponent implements OnInit{
                                 if (AddressForm.valid) {
                                     step.active = false;
                                     step.valid = true;
-                                    steps[index + 1].active = true;
+                                    steps[index - 1].active = true;
                                     return true;
                                 }
                                 
@@ -223,13 +227,13 @@ export class KycUserComponent implements OnInit{
     }
 
     public prev() {
-        if (this.steps[0].active)
+        if (this.steps[3].active)
             return false;
         this.steps.some(function (step, index, steps) {
-            if (index != 0) {
+            if (index != 4) {
                 if (step.active) {
                     step.active = false;
-                    steps[index - 1].active = true;
+                    steps[index + 1].active = true;
                     return true;
                 }
             }

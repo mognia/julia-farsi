@@ -1,6 +1,6 @@
 <div id="accordion-1" role="tablist" aria-multiselectable="true">
     <div style="padding: 22px"  widget class="card border-0 box-shadow">
-     <p class="urMsg">Your Ticket Message:</p> <p class="msg">{{description}}</p> 
+     <p class="urMsg">متن تیکت شما</p> <p class="msg">{{description}}</p> 
      <div  *ngIf="attachmentAddress">
         <img class="img" src="http://localhost:3000//{{attachmentAddress}}" >
     </div>
@@ -43,8 +43,8 @@
         </div>
     </div>
     <div widget class="urRp card border-0 box-shadow">
-     <p *ngIf="replays.length">Replays For Your Ticket</p> 
-     <p *ngIf="!replays.length">No Replays for this ticket Yet :( </p>
+     <p *ngIf="replays.length">پاسخ های اسن تیکت</p> 
+     <p *ngIf="!replays.length">هنوز پاسخی وجود ندارد </p>
     </div>
   <div class="card" *ngFor="let rep of replays">
     <div class="card-header" role="tab" id="headingOne">
