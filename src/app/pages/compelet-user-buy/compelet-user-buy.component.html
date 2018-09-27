@@ -1,0 +1,92 @@
+<div widget class="card border-0 box-shadow" style=" font-size: 18px;   padding: 6%;">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th> تاریخ ثبت</th>
+
+        <th>مقدار</th>
+        <th>ایمیل صراف </th>
+        <th>وضعیت</th>
+        <th>شماره رسید</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor='let i of receipts'>
+        <td>{{i.exchangerSubmitDate}}</td>
+
+        <td>{{i.amount}}</td>
+        <td>{{i.exchangerEmail}}</td>
+        <td>
+          <span class="badge  mr-1"  data-toggle="modal" data-target="#pendingModal" (click)="pending(i.receiptNumber)" style="    cursor: pointer;" [ngClass]="{'badge-danger': i.status=='Closed'||i.status=='Canceled', 'badge-info': i.status=='Pending'}">
+          {{i.status}}</span>
+        </td>
+        <td>{{i.receiptNumber}}</td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="pendingModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">مدارک خود را ارسال کنید</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <flash-messages></flash-messages> 
+            <form *ngIf='!confirmed'  (ngSubmit)="onSubmit(form.value)" [formGroup]="form" class="form-horizontal">
+
+
+
+                    <div class="form-group row text-sm-right">
+                            
+                            <div class="col-sm-9">
+                                <textarea formControlName="comment" type="text" class="form-control" id="email-h-t"></textarea>
+                                <small class="text-danger" *ngIf="form.get('comment').touched">
+                                    <span *ngIf="form.get('comment').hasError('required')">Descript is required</span>
+                                </small> 
+                            </div>
+                            <label for="email-h-f" class="col-sm-3 form-control-label mt-1">توضیحات</label>
+                        </div>
+
+                        <div style="border-top: 2px solid #e9ecef;padding: 12px 0;" class="col-lg-12 mb-12">
+
+
+                            <input  style="      left: 19px; position: absolute;width: 100%;opacity: 0;  left: 12px;"  type="file" accept="image/*" [formControl]="receipt" id="imginput" (change)="image($event)"  class="img-upload-btn"  />
+
+                            <button class="btn btn-info btn-block rounded-0" type="button">
+                                <span *ngIf="!photo">
+                                    <i class="fa fa-upload"></i> Select Image... </span>
+                                <span *ngIf="photo">
+                                    <i class="fa fa-refresh"></i> Change Image... </span>
+                            </button>
+
+                            <div class="image-wrapper">
+                                <i *ngIf="photo" class="fa fa-times delete-img" (click)="removeImage()"></i>
+                                <img [attr.src]="photo" *ngIf="photo" width="100%">
+                            </div>
+
+
+                            <div class="err">{{fileExtensionMessage}}</div>
+                        </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">انصراف</button>
+                                <button type="submit" [disabled]='!haveImg' class="btn btn-success">ارسال</button>
+                              </div>
+            </form>
+            <div *ngIf='confirmed'>
+                <div class="success">
+                    <p>درخواست با موفقیت ثبت شد</p>         
+            </div>
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>

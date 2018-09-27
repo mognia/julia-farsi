@@ -43,6 +43,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { UsersListComponent } from './users-list/users-list.component';
 import { WithdrawComponent } from './withdraw/withdraw.component';
 import { ExchangerUserListComponent } from './exchanger-user-list/exchanger-user-list.component';
+import { CompeletUserBuyComponent } from './compelet-user-buy/compelet-user-buy.component';
 
 
 
@@ -86,6 +87,8 @@ import { ExchangerUserListComponent } from './exchanger-user-list/exchanger-user
     WithdrawComponent,
     
     ExchangerUserListComponent,
+    
+    CompeletUserBuyComponent,
 
 
   ],

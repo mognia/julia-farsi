@@ -5,6 +5,7 @@ import { AuthService } from "../../services/auth-service.service";
 import { ExchangerService } from "../../services/exchanger.service";
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
+import * as moment from 'moment';
 @Component({
   selector: 'app-exchanger-user-list',
   templateUrl: './exchanger-user-list.component.html',
@@ -15,10 +16,10 @@ export class ExchangerUserListComponent implements OnInit {
   minDate = new Date(1900, 0, 1);
   maxDate = new Date(2000, 0, 1);
   public steps: any[];
-  public accountForm: FormGroup;
+
   public personalForm: FormGroup;
   public search : FormGroup;
-  public AddressForm: FormGroup;
+
   public userNum :AbstractControl;
   public details: any = {};
   public showConfirm: boolean;
@@ -38,19 +39,15 @@ export class ExchangerUserListComponent implements OnInit {
   telephone;
   walletAddress;
   reseted:boolean=false;
+  userNumber;
   //
-  haveImg:boolean=true;
+  haveImg:boolean=false;
   ax;
-  photoName: any;
-  photoContent: any;
-  fileExtension: any;
+  receipts
    fileExtensionError: boolean ;
-   validAddress:boolean =true;
+
   fileExtensionMessage: any;
 
-  dateFormControl = new FormControl('', [
-      Validators.required,
-  ]);
   image(event) {
       let fileType = event.target.files[0].type;
       let fileSize = event.target.files[0].size;
@@ -101,42 +98,32 @@ export class ExchangerUserListComponent implements OnInit {
 
   }
   constructor(router: Router, private authService: AuthService,private exchangerService: ExchangerService, private formBuilder: FormBuilder, private flashMessage: FlashMessagesService ) { 
-    this.exchangerService.receipt("a")
+    this.exchangerService.getKyc("a")
     this.router = router;
     this.steps = [
-        { name: 'Confirm Your Details',describ:'تایید اطلاعات', icon: 'fa-check-square-o', active: false, valid: false, hasError: false },
-        { name: 'Address Information',describ:'آدرس و عکس پاسپورت', icon: 'fa-credit-card', active: false, valid: false, hasError: false },
-        { name: 'Personal Information',describ:'اطلاعات شخصی', icon: 'fa-user', active: false, valid: false, hasError: false },
+        { name: 'Personal Information',describ:'ثبت خرید', icon: 'fa-user', active: false, valid: false, hasError: false },
           {name: 'Start ID Verification',describ:'اطلاعات کاربر', icon: 'fa-check', active: true, valid: true, hasError:false },
 
 
 
     ]
 
-    this.accountForm = this.formBuilder.group({
-   
-    });
+
     this.search = this.formBuilder.group({
       'userNum':['']
     })
     this.userNum = this.search.controls['userNum'];
     this.personalForm = this.formBuilder.group({
 
-        'firstname': ['', Validators.required],
-        'lastname': ['', Validators.required],
-        'birth': ['', Validators.required],
-
-        'phone': ['', Validators.required],
-        'wallet': ['',Validators.required],
+        'amount': ['', Validators.required],
+        'receipt': [''],
+        'comment':['']
 
     });
-    this.AddressForm = this.formBuilder.group({
-        'address': ['', Validators.required],
-        'image': ['']
-    });
+
   }
   Search(value:Object){
-    this.exchangerService.receipt(this.search.controls['userNum'].value).subscribe(data=>{
+    this.exchangerService.getKyc(this.search.controls['userNum'].value).subscribe(data=>{
       console.log(data);
       let msg = data['msg'];
       let success = data['success'];
@@ -152,9 +139,10 @@ export class ExchangerUserListComponent implements OnInit {
         this.passImg = this.user.passportImageAddress;
         this.telephone = this.user.telephone;
         this.walletAddress =this.user.walletAddress;
+        this.userNumber = this.search.controls['userNum'].value
         
         //   this.router.navigate(['/login']);
-    } else {
+    } if(!success) {
         this.flashMessage.show(msg, { cssClass: 'alert-danger', timeout: 10000 });
         this.dataSuccess = false;
         this.dataMsg = msg;
@@ -165,7 +153,15 @@ export class ExchangerUserListComponent implements OnInit {
   }
   ngOnInit() {
     let user = JSON.parse(localStorage.getItem('user')) ;
-
+    this.exchangerService.getList().subscribe(data=>{
+        this.receipts= data['receipts']
+        this.receipts.forEach(i => {
+            console.log(i.exchangerSubmitDate);
+            
+            i.exchangerSubmitDate= moment(i.exchangerSubmitDate).format('MM/DD/YYYY');
+        });
+        
+    })
     if (this.reseted) {
         user.KYCVerified = false;
        
@@ -184,30 +180,26 @@ export class ExchangerUserListComponent implements OnInit {
 
   public next() {        
 
-    let accountForm = this.accountForm;
     let personalForm = this.personalForm;
-    let AddressForm = this.AddressForm;
+
   if (personalForm.valid) {
     this.haveImg=false; 
   }
 
-    if (this.steps[this.steps.length - 4].active)
+    if (this.steps[this.steps.length - 2].active)
         return false;
 
     this.steps.some(function (step, index, steps) {
 
-        if (index > steps.length - 4) {
+        if (index > steps.length - 2) {
             if (step.active) {
                 if(step.name=='Start ID Verification'){
-                    if (accountForm.valid) {
+
                         step.active = false;
                         step.valid = true;
                         steps[index-1].active=true;
                         return true;
-                    }
-                    else{
-                        step.hasError = true;
-                    }                      
+                     
                 }
                 if (step.name == 'Personal Information') {
                     if (personalForm.valid) {
@@ -220,44 +212,18 @@ export class ExchangerUserListComponent implements OnInit {
                         step.hasError = true;
                     }
                 }
-                if (step.name == 'Address Information') {
-                    
 
-                            if (AddressForm.valid) {
-                                step.active = false;
-                                step.valid = true;
-                                steps[index - 1].active = true;
-                                return true;
-                            }
-                            
-                        
-
-                        
-
-
-                    else {
-                        step.hasError = true;
-                    }
-                }
             }
         }
     });
 
 
-    this.details.firstname = this.personalForm.value.firstname;
-    this.details.lastname = this.personalForm.value.lastname;
-    this.details.birth = this.personalForm.value.birth;
-    this.details.email = this.personalForm.value.email;
-    this.details.phone = this.personalForm.value.phone;
-    this.details.wallet = this.personalForm.value.wallet;
-    this.details.address = this.AddressForm.value.address;
-    this.details.image = this.ax;
 }
 public prev() {
-  if (this.steps[3].active)
+  if (this.steps[1].active)
       return false;
   this.steps.some(function (step, index, steps) {
-      if (index != 4) {
+      if (index != 2) {
           if (step.active) {
               step.active = false;
               steps[index + 1].active = true;
@@ -268,11 +234,27 @@ public prev() {
 }
 
 public confirm() {
-  this.steps.forEach(step => step.valid = true);
-  this.confirmed = true;
-  // console.log(this.details);
+    this.details.amount = this.personalForm.controls['amount'].value;
+    this.details.receipt = this.ax;
+    this.details.comment =this.personalForm.controls['comment'].value;
+    this.details.userNumber = this.userNumber;
+    let personalForm = this.personalForm;
+    if (!personalForm.valid) {
 
-  this.authService.updatekyc(this.details).subscribe(data => {
+        return false;
+    }
+    if (!this.haveImg) {
+        this.personalForm.controls['receipt'].setErrors({'required': true});
+        return false
+    }
+  this.steps.forEach(step => step.valid = true);
+
+  console.log(this.userNumber);
+
+  this.exchangerService.receipt(this.details)
+  .subscribe(data => {
+      console.log(data);
+      
       let msg = data['msg'];
       let success = data['success'];
 
@@ -280,18 +262,19 @@ public confirm() {
           this.flashMessage.show(msg, { cssClass: 'alert-success', timeout: 3000 });
           this.dataSuccess = true;
           this.dataMsg = msg;
-          //   this.router.navigate(['/login']);
+          this.confirmed = true;
+
       } else {
           this.flashMessage.show(msg, { cssClass: 'alert-danger', timeout: 3000 });
           this.dataSuccess = false;
           this.dataMsg = msg;
-          //   this.router.navigate(['/register']);
+
       }
   });
 
 }
 public home(){
-    this.router.navigate(['pages/dashboard']);
+    location.reload()
 }
 
 }

@@ -10,7 +10,15 @@
     padding: 12px;
     font-size: 19px;
 }
-
+.amount{
+    padding: 6% 0;
+}
+.amount input{
+    display: inline-block;
+}
+.comment input{
+    display: inline-block;
+}
 .m-img-upload-btn{
     position: absolute;
     padding: 0;

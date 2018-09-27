@@ -15,6 +15,7 @@ export const verticalMenuItems = [
     new Menu (12, 'لیست کاربران', '/pages/UserList', null, 'caret-right', null, false, 0,'admin'),
     new Menu (13, 'خرید / فروش', '/pages/withDraw', null, 'keyboard-o', null, false, 0,'user'),
     new Menu (14, 'جستوجوی کاربر', '/pages/ExchangerUserList', null, 'keyboard-o', null, false, 0,'user'),
+    new Menu (15, 'تکمیل خرید', '/pages/CompleteBuy', null, 'keyboard-o', null, false, 0,'user'),
     // new Menu (30, 'NGX DataTable', '/pages/tables/dynamic-tables/ngx', null, 'caret-right', null, false, 28,'admin'), 
 ]
 

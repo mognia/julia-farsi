@@ -213,4 +213,27 @@ export class AuthService {
 
     return this.http.post('http://localhost:3000/users/disable',email, { headers: headers })
   }
+  listReceipt(){
+        
+    this.loadToken();
+    let headers = new HttpHeaders({       'Authorization' : this.authToken     });
+
+    return this.http.get('http://localhost:3000/users/list-receipt', { headers: headers })
+  }
+  uploadReceipt(form){
+    this.loadToken();
+    let headers = new HttpHeaders({
+      'Authorization' : this.authToken
+    });
+    headers.append('Authorization', this.authToken);
+    // headers.append('Content-Type', 'multipart/form-data');
+    let body = new FormData();
+    // body.append('email', form.email);
+    body.append('receipt', form.receipt);
+    body.append('exchangerComment', form.comment);
+    body.append('receiptNumber', form.receiptNumber);
+
+    return this.http.post('http://localhost:3000/users/receipt', body, { headers: headers })
+    
+  }
 }
