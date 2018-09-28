@@ -16,10 +16,15 @@
 
         <td>{{i.amount}}</td>
         <td>{{i.exchangerEmail}}</td>
-        <td>
-          <span class="badge  mr-1"  data-toggle="modal" data-target="#pendingModal" (click)="pending(i.receiptNumber)" style="    cursor: pointer;" [ngClass]="{'badge-danger': i.status=='Closed'||i.status=='Canceled', 'badge-info': i.status=='Pending'}">
+        <td *ngIf="i.status=='Pending'">
+          <span  class="badge  mr-1"  data-toggle="modal" data-target="#pendingModal" (click)="pending(i.receiptNumber)" style="    cursor: pointer;" [ngClass]="{'badge-danger': i.status=='Closed'||i.status=='Canceled', 'badge-info': i.status=='Pending'}">
           {{i.status}}</span>
+        
         </td>
+        <td *ngIf="i.status!='Pending'">
+            <span  class="badge  mr-1" [ngClass]="{'badge-danger': i.status=='Rejected', 'badge-info': i.status=='Pending', 'badge-success': i.status=='Approved'}">
+                {{i.status}}</span>
+          </td>
         <td>{{i.receiptNumber}}</td>
 
       </tr>

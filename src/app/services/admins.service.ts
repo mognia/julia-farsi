@@ -4,58 +4,19 @@ import { HttpModule } from '@angular/http';
 import { HttpClient } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
-
-
 @Injectable({
   providedIn: 'root'
 })
-export class ExchangerService {
+export class AdminsService {
   authToken: any;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+
+  }
   loadToken() {
     const token = localStorage.getItem('id_token');
     this.authToken = token;
   }
-  getKyc(userNumber){
-    let headers = new HttpHeaders({
-      'Authorization' : this.authToken
-    });
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
- 
-    
-    return this.http.post('http://localhost:3000/exchangers/get-kyc', {"userNumber":userNumber}, { headers: headers })
-  }
-
-  receipt(form){
-    this.loadToken();
-    let headers = new HttpHeaders({
-      'Authorization' : this.authToken
-    });
-    headers.append('Authorization', this.authToken);
-    // headers.append('Content-Type', 'multipart/form-data');
-    let body = new FormData();
-    // body.append('email', form.email);
-    body.append('receipt', form.receipt);
-    body.append('exchangerComment', form.comment);
-    body.append('amount', form.amount);
-    body.append('userNumber', form.userNumber);
-
-    return this.http.post('http://localhost:3000/exchangers/receipt', body, { headers: headers })
-    
-  }
-  getList(){
-    let headers = new HttpHeaders({
-      'Authorization' : this.authToken
-    });
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
- 
-    
-    return this.http.get('http://localhost:3000/exchangers/list-receipt', { headers: headers })
-  }
+  // list all Receipt submited by user and exchange and ready for admin response
   ListPending(){
     let headers = new HttpHeaders({
       'Authorization' : this.authToken
@@ -66,5 +27,49 @@ export class ExchangerService {
  
     
     return this.http.get('http://localhost:3000/admins/list-pending-receipt', { headers: headers })
+  }
+  ListApproved(){
+    let headers = new HttpHeaders({
+      'Authorization' : this.authToken
+    });
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+ 
+    
+    return this.http.get('http://localhost:3000/admins/list-approved-receipt', { headers: headers })
+  }
+  ListRejected(){
+    let headers = new HttpHeaders({
+      'Authorization' : this.authToken
+    });
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+ 
+    
+    return this.http.get('http://localhost:3000/admins/list-rejected-receipt', { headers: headers })
+  }
+  approveReceipt(form){
+    let headers = new HttpHeaders({
+      'Authorization' : this.authToken
+    });
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+ 
+    
+    return this.http.post('http://localhost:3000/admins/approve-receipt',form, { headers: headers })
+  }
+  rejectReceipt(form){
+    let headers = new HttpHeaders({
+      'Authorization' : this.authToken
+    });
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+ 
+    
+    return this.http.post('http://localhost:3000/admins/reject-receipt',form, { headers: headers })
   }
 }

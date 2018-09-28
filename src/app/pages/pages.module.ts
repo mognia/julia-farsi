@@ -44,6 +44,7 @@ import { UsersListComponent } from './users-list/users-list.component';
 import { WithdrawComponent } from './withdraw/withdraw.component';
 import { ExchangerUserListComponent } from './exchanger-user-list/exchanger-user-list.component';
 import { CompeletUserBuyComponent } from './compelet-user-buy/compelet-user-buy.component';
+import { AminBuysComponent } from './amin-buys/amin-buys.component';
 
 
 
@@ -89,6 +90,8 @@ import { CompeletUserBuyComponent } from './compelet-user-buy/compelet-user-buy.
     ExchangerUserListComponent,
     
     CompeletUserBuyComponent,
+    
+    AminBuysComponent,
 
 
   ],

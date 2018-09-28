@@ -28,7 +28,7 @@
 
                                     <td>{{i.amount}}</td>
                                     <td>{{i.userEmail}}</td>
-                                    <td> <span  class="badge  mr-1" [ngClass]="{'badge-danger': i.status=='Closed'||i.status=='Canceled', 'badge-info': i.status=='Pending'}"> {{i.status}}</span></td>
+                                    <td> <span  class="badge  mr-1" [ngClass]="{'badge-danger': i.status=='Rejected', 'badge-info': i.status=='Pending', 'badge-success': i.status=='Approved'}"> {{i.status}}</span></td>
                                     <td>{{i.receiptNumber}}</td>
 
                                 </tr>
