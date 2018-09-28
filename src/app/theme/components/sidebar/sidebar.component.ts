@@ -13,6 +13,9 @@ import { MenuService } from '../menu/menu.service';
 export class SidebarComponent implements OnInit {  
   public settings: Settings;
   public menuItems:Array<any>;
+  isUser;
+  isAdmin;
+  isExchanger;
   constructor(public appSettings:AppSettings, public menuService:MenuService) {
       this.settings = this.appSettings.settings;
       this.menuItems = this.menuService.getVerticalMenuItems();
@@ -36,12 +39,21 @@ export class SidebarComponent implements OnInit {
           //its saved as string so we parse it to json again
           const role = JSON.parse(roles)
           //here we extract the Role Title from role Object
+          console.log(role);
+          role.forEach(i => {
+
+            this.isUser = this.IsUser(i.roleTitle);
+            this.isAdmin = this.IsAdmin(i.roleTitle); 
+            this.isExchanger = this.IsExchanger(i.roleTitle);
+          });
+          
           const roleTitle = role[0].roleTitle
 
-          let isAdmin = this.IsAdmin(roleTitle);
-          let isUser = this.IsUser(roleTitle); 
-          let isExchanger = this.isExchanger(roleTitle); 
-          if (isAdmin) {
+          // let isAdmin = this.IsAdmin(roleTitle);
+          // let isUser = this.IsUser(roleTitle); 
+          // let isExchanger = this.isExchanger(roleTitle); 
+          if (this.isAdmin) {
+            console.log('adminnnn');
             
             for (const item in this.menuItems) {
               let newMenuItem = this.menuItems.filter(item => item.guard == 'admin'||item.guard == 'any')
@@ -50,7 +62,9 @@ export class SidebarComponent implements OnInit {
             this.menuItems = newMenuItem; 
             }
           }
-          else if (isUser) {
+          else if (this.isUser) {
+            console.log('userrrr');
+            
             for (const item in this.menuItems) {
               let newMenuItem = this.menuItems.filter(item => item.guard == 'user'||item.guard == 'any')
     
@@ -58,7 +72,9 @@ export class SidebarComponent implements OnInit {
             this.menuItems = newMenuItem; 
             }
                  
-          }else if(isExchanger){
+          }else if(this.isExchanger){
+            console.log('saraaaf');
+            
             for (const item in this.menuItems) {
               let newMenuItem = this.menuItems.filter(item => item.guard == 'exchanger'||item.guard == 'any')
     
@@ -86,7 +102,7 @@ export class SidebarComponent implements OnInit {
             return false
           }
         }
-        isExchanger(roleTitle){
+        IsExchanger(roleTitle){
 
           
           if (roleTitle == 'exchanger') {

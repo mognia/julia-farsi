@@ -47,6 +47,7 @@ export class KycUserComponent implements OnInit{
      fileExtensionError: boolean ;
      validAddress:boolean =true;
     fileExtensionMessage: any;
+    userNumber;
 
     dateFormControl = new FormControl('', [
         Validators.required,
@@ -117,6 +118,7 @@ export class KycUserComponent implements OnInit{
             this.passImg = user.passportImageAddress;
             this.telephone = user.telephone;
             this.walletAddress =user.walletAddress;
+            this.userNumber = user.UserNumber;
         }
 
     }
