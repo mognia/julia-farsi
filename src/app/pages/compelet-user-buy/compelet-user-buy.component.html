@@ -1,5 +1,11 @@
 <div widget class="card border-0 box-shadow" style=" font-size: 18px;   padding: 6%;">
-  <table class="table table-striped">
+    <div *ngIf="noPending" style="    margin-bottom: 20px;" class="card card-outline-primary">
+        <div class="card-body text-center">
+          <p class="text-primary">فعلا خرید در انتظار تایید وجود ندارد</p>
+          <!-- <p class="card-text"><code>123123</code></p> -->
+        </div>
+      </div>
+  <table *ngIf="!noPending" class="table table-striped">
     <thead>
       <tr>
         <th> تاریخ ثبت</th>

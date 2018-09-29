@@ -9,32 +9,39 @@
                 <input type="hidden" [value]="selected[0].email" formControlName="email"  >
                 <div class="form-group">
                   <div class="custom-control custom-checkbox">
-                    <input formControlName="user" type="checkbox" [checked]="selected[0].roles== 'user' "  class="custom-control-input" id="checkboxDefault">
+                    <input formControlName="user" type="checkbox" [checked]="isUser"  class="custom-control-input" id="checkboxDefault">
                     <label class="custom-control-label" for="checkboxDefault">user</label>
                   </div>
                   
                 </div>
                 <div class="form-group">
                   <div class="custom-control custom-checkbox">
-                    <input formControlName="exchanger" type="checkbox" [checked]="selected.roles== 'exchanger' " class="custom-control-input checkbox-primary" id="checkboxPrimary"
+                    <input formControlName="exchanger" type="checkbox" [checked]="isExchanger" class="custom-control-input checkbox-primary" id="checkboxPrimary"
                       checked>
                     <label class="custom-control-label" for="checkboxPrimary">Exchanger</label>
                   </div>
                   </div>
                   <div class="form-group">
                   <div class="custom-control custom-checkbox">
-                    <input formControlName="canChangeRoles" type="checkbox" [checked]="selected[0].roles== 'owner' " class="custom-control-input checkbox-success" id="checkboxSuccess"
+                    <input formControlName="changeRoles" type="checkbox" [checked]="isChangeRole" class="custom-control-input checkbox-success" id="checkboxSuccess"
                       checked>
-                    <label class="custom-control-label" for="checkboxSuccess">can Change Roles</label>
+                    <label class="custom-control-label" for="checkboxSuccess">change Roles</label>
                   </div>
                   </div>
                   <div class="form-group">
                       <div class="custom-control custom-checkbox">
-                        <input formControlName="canVerifyKYC" type="checkbox" [checked]="selected[0].roles== 'canVerifyKYC' " class="custom-control-input checkbox-warning" id="checkboxWarning"
+                        <input formControlName="verifyKYC" type="checkbox" [checked]="isVerifyKYC" class="custom-control-input checkbox-warning" id="checkboxWarning"
                           checked>
                         <label class="custom-control-label" for="checkboxWarning">can Verify KYC</label>
                       </div>
                       </div>
+                      <div class="form-group">
+                          <div class="custom-control custom-checkbox">
+                            <input formControlName="answerTicket" type="checkbox" [checked]="isAnswerTicket " class="custom-control-input checkbox-warning" id="answerTicket"
+                              checked>
+                            <label class="custom-control-label" for="answerTicket">answer Ticket</label>
+                          </div>
+                          </div>
                   <div class="form-group">
                       <button  class="btn btn-block" type="submit">Change Role</button>
                   </div>

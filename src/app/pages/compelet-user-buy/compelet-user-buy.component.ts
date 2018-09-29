@@ -26,10 +26,14 @@ export class CompeletUserBuyComponent implements OnInit {
   dataMsg;
   receiptNum;
   confirmed=false;
+  noPending;
   constructor(router: Router, private authService: AuthService,private exchangerService: ExchangerService, private fb: FormBuilder, private flashMessage: FlashMessagesService ) { 
 
-    this.authService.listReceipt().subscribe(data=>{
+    this.authService.listPendingReceipt().subscribe(data=>{
       this.receipts = data['receipts']
+      if (this.receipts.length==0) {
+        this.noPending = true;
+      }
       this.receipts.forEach(i => {
         console.log(i.exchangerSubmitDate);
         

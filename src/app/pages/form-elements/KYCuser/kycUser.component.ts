@@ -244,10 +244,12 @@ export class KycUserComponent implements OnInit{
 
     public confirm() {
         this.steps.forEach(step => step.valid = true);
-        this.confirmed = true;
-        // console.log(this.details);
 
+        // console.log(this.details);
+        this.confirmed = true;
         this.authService.updatekyc(this.details).subscribe(data => {
+            console.log(data);
+
             let msg = data['msg'];
             let success = data['success'];
 

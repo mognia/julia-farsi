@@ -57,7 +57,8 @@ export class AuthService {
     body.append('walletAddress', form.wallet);
     body.append('address', form.address);
     body.append('passportImage', form.image);
-
+    console.log(body);
+    
     return this.http.post('http://localhost:3000/users/updatekyc', body, { headers: headers })
       // .map(res => res.json());
   }
@@ -219,6 +220,18 @@ export class AuthService {
     let headers = new HttpHeaders({       'Authorization' : this.authToken     });
 
     return this.http.get('http://localhost:3000/users/list-receipt', { headers: headers })
+  }
+  listPendingReceipt(){
+    this.loadToken();
+    let headers = new HttpHeaders({       'Authorization' : this.authToken     });
+
+    return this.http.get('http://localhost:3000/users/list-pending-receipt', { headers: headers })
+  }
+  getBalance(){
+    this.loadToken();
+    let headers = new HttpHeaders({       'Authorization' : this.authToken     });
+
+    return this.http.get('http://localhost:3000/users/balance', { headers: headers })
   }
   uploadReceipt(form){
     this.loadToken();
