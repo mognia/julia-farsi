@@ -1,8 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation,ViewChild } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '../../../../../node_modules/@angular/router';
 import { FormGroup, FormControl, AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { TicketService } from "../../../services/ticket.service";
 import { FlashMessagesService } from 'angular2-flash-messages';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
+import * as moment from 'moment';
 @Component({
   selector: 'app-user-ticket',
   templateUrl: './user-ticket.component.html',
@@ -10,6 +12,9 @@ import { FlashMessagesService } from 'angular2-flash-messages';
   encapsulation: ViewEncapsulation.None
 })
 export class UserTicketComponent implements OnInit {
+  displayedColumns: string[] = ['ticketNumber', 'replayDate', 'subject', 'status','tokenType','conversation'];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource;
   public router: Router;
   public form: FormGroup;
   public subject: AbstractControl;
@@ -60,8 +65,12 @@ this.ticketService.listmy()
 
       console.log(data);
       let tickets = data['tickets'];
+      tickets.forEach(i => {
 
-
+        i.lastReplayDate= moment(i.lastReplayDate).format('MM/DD/YYYY');
+    });
+      this.dataSource = new MatTableDataSource(tickets);
+      this.dataSource.paginator = this.paginator;
       tickets.forEach(ticket => {
         this.ticketsArr.push(ticket);
       });

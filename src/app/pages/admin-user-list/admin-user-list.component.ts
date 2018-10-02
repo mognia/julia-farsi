@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewEncapsulation,ViewChild } from '@angular/core';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
 import { AuthService } from "../../services/auth-service.service";
+import { AdminsService } from "../../services/admins.service";
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, AbstractControl, FormBuilder, Validators} from '@angular/forms';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
 @Component({
   selector: 'app-admin-user-list',
   templateUrl: './admin-user-list.component.html',
@@ -11,6 +13,7 @@ import { FormGroup, FormControl, AbstractControl, FormBuilder, Validators} from 
   encapsulation: ViewEncapsulation.None
 })
 export class AdminUserListComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   public router: Router;
   editing = {};
   public form:FormGroup;
@@ -42,7 +45,7 @@ export class AdminUserListComponent implements OnInit {
 
 
 
-  constructor(router:Router, private authService:AuthService,private flashMessage: FlashMessagesService,fb:FormBuilder,) { 
+  constructor(router:Router, private authService:AuthService,private adminsService:AdminsService,private flashMessage: FlashMessagesService,fb:FormBuilder,) { 
     this.form = fb.group({
       user: [true],
       exchanger: [false],
@@ -51,14 +54,14 @@ export class AdminUserListComponent implements OnInit {
       answerTicket:[false],
       email:['']
   });
-  this.authService.getUserList();
+  this.adminsService.getUserList();
   this.user = this.form.controls['user'];
   this.exchanger = this.form.controls['exchanger'];
   this.changeRoles = this.form.controls['changeRoles'];
   this.verifyKYC = this.form.controls['verifyKYC'];
   this.email = this.form.controls['email'];
   this.answerTicket = this.form.controls['answerTicket'];
-    this.authService.getUserList().subscribe(data => {
+    this.adminsService.getUserList().subscribe(data => {
 
       let users = data['users']
 
@@ -85,7 +88,7 @@ export class AdminUserListComponent implements OnInit {
   public onSubmit(values:Object):void {
     values["email"] =this.selected[0].email;
     console.log(values);
-    this.authService.changeRole(values).subscribe(data => {
+    this.adminsService.changeRole(values).subscribe(data => {
       console.log(data);
       let msg = data['msg'];
       let success = data['success'];

@@ -8,13 +8,13 @@
 
     <div widget class="card border-0 box-shadow">
         <div class="card-header transparent border-0 text-muted">
-            <h5 class="mb-0">Answer</h5>       
+            <h5 class="mb-0">ارسال پاسخ</h5>       
         </div>
         <div class="card-body widget-body">
 
             <form [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
                 <div class="form-group">
-                    <textarea [formControl]="replayDesc" class="form-control" placeholder="Message" rows="3"></textarea>
+                    <textarea style="text-align: right" [formControl]="replayDesc" class="form-control" placeholder="متن پیام" rows="3"></textarea>
                 </div>
                 <!-- <div style="border-top: 2px solid #e9ecef;padding: 12px 0;" class="col-lg-4 mb-4">
 
@@ -37,7 +37,7 @@
 
                   <div class="err">{{fileExtensionMessage}}</div>
               </div> -->
-                <button type="submit" class="btn btn-primary">Send</button>
+                <button type="submit" class="btn btn-primary">ارسال</button>
             </form>
 
         </div>

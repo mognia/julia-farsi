@@ -2,6 +2,7 @@ import { Component, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators,AbstractControl} from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { AuthService } from "../../../services/auth-service.service";
+import { AdminsService } from "../../../services/admins.service";
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
 @Component({
@@ -23,8 +24,8 @@ export class KycAdminComponent {
     userEmail;
     selected = [];
     rows:any = [];
-    constructor(router:Router,private authService:AuthService, private flashMessage: FlashMessagesService,private fb: FormBuilder) { 
-        this.authService.getUserListKyc();
+    constructor(router:Router,private authService:AuthService,private adminsService:AdminsService ,private flashMessage: FlashMessagesService,private fb: FormBuilder) { 
+        this.adminsService.getUserListKyc();
         this.form = fb.group({
             verifyFirstName: [false],
             verifyLastName: [false],
@@ -37,7 +38,7 @@ export class KycAdminComponent {
         });
         this.email = this.form.controls['email'];
         this.verifyFirstName = this.form.controls['verifyFirstName'];
-        this.authService.getUserListKyc().subscribe(data => {
+        this.adminsService.getUserListKyc().subscribe(data => {
 
             let users = data['users']
             console.log(data);
@@ -71,7 +72,7 @@ export class KycAdminComponent {
         // }
         value['email'] = this.userEmail
 
-        this.authService.verifykyc(value).subscribe(data => {
+        this.adminsService.verifykyc(value).subscribe(data => {
             let msg = data['msg'];
             let success = data['success'];
 

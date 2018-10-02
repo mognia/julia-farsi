@@ -8,7 +8,8 @@ import { TicketStateComponent } from './ticket-state/ticket-state.component';
 import { AdminTicketComponent } from './admin-ticket/admin-ticket.component';
 import { AdminTicketListComponent } from './admin-ticket-list/admin-ticket-list.component';
 import { AdminTicketStateComponent } from './admin-ticket-state/admin-ticket-state.component';
-
+import { MatPaginatorModule } from '@angular/material';
+import {MatTableModule} from '@angular/material/table';
 
 export const routes = [
   { path: 'UserTicket', component: UserTicketComponent, pathMatch: 'full' },
@@ -21,6 +22,7 @@ export const routes = [
 
 @NgModule({
   imports: [
+    MatTableModule,MatPaginatorModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

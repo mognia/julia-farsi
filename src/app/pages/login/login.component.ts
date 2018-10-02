@@ -60,10 +60,12 @@ paramMsg;
   public onSubmit(values:Object):void {
       if (this.form.valid) {
         this.authService.authenticateUser(values).subscribe(data => {
+          console.log(data);
+          
           let msg = data['msg'];
           let success = data['success'];
           let token = data ['token'];
-          let user = data['user']
+          let user = data['account']
             if(success) {
               this.authService.storeUserData(token, user);
               this.flashMessage.show('You are now logged in', {cssClass: 'alert-success', timeout: 5000});

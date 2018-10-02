@@ -13,16 +13,56 @@
 
         </div>
         <div class="card-body pt-0 widget-body">
+                <div class="mat-elevation-z8">
+                        <table mat-table [dataSource]="dataSource" dir='ltr'>
+                          <ng-container matColumnDef="activity">
+                            <th mat-header-cell *matHeaderCellDef> فعالیت کاربران </th>
+                            <td mat-cell *matCellDef="let element">
+                
+                                    <button data-toggle="modal" data-target="#activModal" class="btn btn-outline-success w-100p mb-1 mr-1" (click)="activity(element.email)"
+                                    type="button">فعال</button>
+                                <button data-toggle="modal" data-target="#deactivModal" class="btn btn-outline-danger w-100p mb-1 mr-1" (click)="activity(element.email)"
+                                    type="button">غیرفعال</button>
+                
+                            </td>
+                          </ng-container>
+                          <!-- msg Column -->
+                          <ng-container matColumnDef="msg">
+                            <th mat-header-cell *matHeaderCellDef> پیام </th>
+                            <td mat-cell *matCellDef="let element">
+                              
+                                    <button class="btn btn-outline-primary " type="button">ارسال پیام</button>
+    
+                            </td>
+                          </ng-container>
+                          <!-- kyc Column -->
+                          <ng-container matColumnDef="kyc">
+                            <th mat-header-cell *matHeaderCellDef> احراز هویت </th>
+                            <td mat-cell *matCellDef="let element"> 
+                                    <button data-toggle="modal" data-target="#kycModal" (click)="getKyc(element.email)" class="btn btn-outline-warning w-100p mb-1 mr-1"
+                                    type="button"> احراز هویت</button>   
+                            </td>
+                          </ng-container>
+                          <!-- email Column -->
+                          <ng-container matColumnDef="email">
+                            <th mat-header-cell *matHeaderCellDef> ایمیل </th>
+                            <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                          </ng-container>
 
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+                      </div>
 
-            <table class="table table-striped">
+            <!-- <table class="table table-striped">
                 <thead>
                     <tr>
 
                         <th>فعالیت کاربران</th>
                         <th>پیام</th>
                         <th> احراز هویت</th>
-
                         <th>ایمیل</th>
                     </tr>
                 </thead>
@@ -30,14 +70,14 @@
                     <tr *ngFor="let email of users">
 
                         <td>
-                                <button data-toggle="modal" data-target="#activModal" class="btn btn-outline-success w-100p mb-1 mr-1" (click)="activity(email)"
-                                    type="button">فعال</button>
-                                <button data-toggle="modal" data-target="#deactivModal" class="btn btn-outline-danger w-100p mb-1 mr-1" (click)="activity(email)"
-                                    type="button">غیرفعال</button>
-                            </td>
-                            <td>
-                                    <button class="btn btn-outline-primary " type="button">ارسال پیام</button>
-                                </td>
+                            <button data-toggle="modal" data-target="#activModal" class="btn btn-outline-success w-100p mb-1 mr-1" (click)="activity(email)"
+                                type="button">فعال</button>
+                            <button data-toggle="modal" data-target="#deactivModal" class="btn btn-outline-danger w-100p mb-1 mr-1" (click)="activity(email)"
+                                type="button">غیرفعال</button>
+                        </td>
+                        <td>
+                            <button class="btn btn-outline-primary " type="button">ارسال پیام</button>
+                        </td>
                         <td>
                             <button data-toggle="modal" data-target="#kycModal" (click)="getKyc(email)" class="btn btn-outline-warning w-100p mb-1 mr-1"
                                 type="button"> احراز هویت</button>
@@ -49,7 +89,7 @@
 
                     </tr>
                 </tbody>
-            </table>
+            </table> -->
         </div>
     </div>
 </div>

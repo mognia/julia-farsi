@@ -1,6 +1,9 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation ,ViewChild} from '@angular/core';
 import { AuthService } from "../../services/auth-service.service";
+import { AdminsService } from "../../services/admins.service";
 import { FormGroup, FormControl, FormBuilder, Validators,AbstractControl} from '@angular/forms';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
+import * as moment from 'moment';
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
@@ -8,6 +11,9 @@ import { FormGroup, FormControl, FormBuilder, Validators,AbstractControl} from '
   encapsulation: ViewEncapsulation.None
 })
 export class UsersListComponent implements OnInit {
+  displayedColumns: string[] = ['activity', 'msg', 'kyc', 'email'];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource;
   public users=[];
   temp = [];
   selectedEmail;
@@ -28,7 +34,7 @@ export class UsersListComponent implements OnInit {
   public form:FormGroup;
   public disable:AbstractControl;
   public enable:AbstractControl;
-  constructor(private fb: FormBuilder,private authService:AuthService) {
+  constructor(private fb: FormBuilder,private authService:AuthService, public adminService:AdminsService) {
     this.form = fb.group({
       disable: [false],
       enable: [false],
@@ -36,14 +42,17 @@ export class UsersListComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.authService.getUserList()
-    this.authService.getUserList().subscribe(data => {
+    this.adminService.getUserList()
+    this.adminService.getUserList().subscribe(data => {
       let users = data['users'];
 
       users.forEach(user => {
         this.users.push(user.email);
         this.temp.push(user.email)
       });
+
+      this.dataSource = new MatTableDataSource(users);
+      this.dataSource.paginator = this.paginator;
       console.log(this.users);
       
     });
@@ -86,7 +95,7 @@ export class UsersListComponent implements OnInit {
   }
 
   active(){
-    this.authService.activeUser({"email":this.selectedUserForActivity}).subscribe(data=>{
+    this.adminService.activeUser({"email":this.selectedUserForActivity}).subscribe(data=>{
       console.log(data);
 
       let msg = data['msg'];
@@ -111,7 +120,7 @@ export class UsersListComponent implements OnInit {
   location.reload();
 }
   deactive(){
-    this.authService.deactiveUser({"email":this.selectedUserForActivity}).subscribe(data=>{
+    this.adminService.deactiveUser({"email":this.selectedUserForActivity}).subscribe(data=>{
       console.log(data);
 
       let msg = data['msg'];

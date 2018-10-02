@@ -39,18 +39,30 @@ import { ResetPassComponent } from './reset-pass/reset-pass.component';
 import {MatButtonModule, MatCheckboxModule} from '@angular/material';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatPaginatorModule } from '@angular/material';
+import {MatTableModule} from '@angular/material/table';
+import {MatNativeDateModule,MatFormFieldModule,} from '@angular/material';
 
+import {MatRadioModule} from '@angular/material/radio';
+import {MatInputModule} from '@angular/material/input';
+
+import {MatDialogModule} from '@angular/material/dialog';
 import { UsersListComponent } from './users-list/users-list.component';
-import { WithdrawComponent } from './withdraw/withdraw.component';
+
 import { ExchangerUserListComponent } from './exchanger-user-list/exchanger-user-list.component';
 import { CompeletUserBuyComponent } from './compelet-user-buy/compelet-user-buy.component';
 import { AminBuysComponent } from './amin-buys/amin-buys.component';
+import { UserBurnComponent } from './user-burn/user-burn.component';
+import { AdminBurnComponent } from './admin-burn/admin-burn.component';
+import { AddAdminComponent } from './addUser/add-admin/add-admin.component';
+import { AddExchangerComponent } from './addUser/add-exchanger/add-exchanger.component';
 
 
 
 @NgModule({
   imports: [
-    MatButtonModule, MatCheckboxModule,MatExpansionModule,MatDatepickerModule,
+    MatButtonModule, MatCheckboxModule,MatExpansionModule,MatDatepickerModule,MatPaginatorModule,MatTableModule,MatNativeDateModule,MatFormFieldModule,MatRadioModule,
+    MatInputModule,MatDialogModule,
     NgxDatatableModule,
     CommonModule,
     FormsModule,
@@ -85,13 +97,21 @@ import { AminBuysComponent } from './amin-buys/amin-buys.component';
     
     UsersListComponent,
     
-    WithdrawComponent,
+
     
     ExchangerUserListComponent,
     
     CompeletUserBuyComponent,
     
     AminBuysComponent,
+    
+    UserBurnComponent,
+    
+    AdminBurnComponent,
+    
+    AddAdminComponent,
+    
+    AddExchangerComponent,
 
 
   ],

@@ -127,7 +127,7 @@ export class AminBuysComponent implements OnInit {
                 location.reload()
   }
   reject(){
-    this.details.comment =this.approveForm.controls['comment'].value;
+    this.details.comment =this.rejectForm.controls['comment'].value;
 
     this.details.receiptNumber = this.reciptNum;
     if (this.rejectForm.valid) {

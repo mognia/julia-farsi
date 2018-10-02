@@ -9,10 +9,13 @@ import { ReferalComponent } from './referal/referal.component';
 import { ResetPassComponent } from './reset-pass/reset-pass.component';
 
 import { UsersListComponent } from './users-list/users-list.component';
-import { WithdrawComponent } from './withdraw/withdraw.component';
+import { UserBurnComponent } from './user-burn/user-burn.component';
 import { ExchangerUserListComponent } from './exchanger-user-list/exchanger-user-list.component';
 import { CompeletUserBuyComponent } from './compelet-user-buy/compelet-user-buy.component';
 import { AminBuysComponent } from './amin-buys/amin-buys.component';
+import { AdminBurnComponent } from './admin-burn/admin-burn.component';
+import { AddAdminComponent } from './addUser/add-admin/add-admin.component';
+import { AddExchangerComponent } from './addUser/add-exchanger/add-exchanger.component';
 export const routes: Routes = [
     {
         path: '', 
@@ -28,12 +31,14 @@ export const routes: Routes = [
             { path: 'UserList', component:UsersListComponent, data: { breadcrumb: 'Users List' } },
             { path: 'referal', component:ReferalComponent, data: { breadcrumb: 'Referals' } },
             { path: 'CompleteBuy', component:CompeletUserBuyComponent, data: { breadcrumb: 'ComptleteBuy' } }, 
-            { path: 'withDraw', component:WithdrawComponent, data: { breadcrumb: 'user WithDraw' } },  
-            { path: 'adminBuys', component:AminBuysComponent, data: { breadcrumb: 'Admin Buys' } },  
+            { path: 'UserBurn', component:UserBurnComponent, data: { breadcrumb: 'user Burn' } },  
+            { path: 'adminBuys', component:AminBuysComponent, data: { breadcrumb: 'Admin Buys' } }, 
+            { path: 'adminBurn', component:AdminBurnComponent, data: { breadcrumb: 'Admin Buys' } }, 
             { path: 'ExchangerUserList', component:ExchangerUserListComponent, data: { breadcrumb: 'Exchanger User List' } },
             { path: 'resetPass', component:ResetPassComponent, data: { breadcrumb: 'Reset Password' } },             
             { path: 'ticketing', loadChildren: 'app/pages/ticketing/ticketing.module#TicketingModule', data: { breadcrumb: 'Ticketing' } },
-
+            { path: 'addAdmin', component:AddAdminComponent, data: { breadcrumb: 'Reset Password' } },   
+            { path: 'addExchanger', component:AddExchangerComponent, data: { breadcrumb: 'Reset Password' } },   
 
        ]
     }

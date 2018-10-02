@@ -22,68 +22,55 @@ export class SidebarComponent implements OnInit {
   constructor(public appSettings: AppSettings, public menuService: MenuService) {
     this.settings = this.appSettings.settings;
     this.menuItems = this.menuService.getVerticalMenuItems();
-    console.log(this.menuItems);
 
-    this.menuItems.forEach(element => {
-      console.log(element.guard);
-      
-    });
+
+
     
   }
 
   ngOnInit() {
-    // if(sessionStorage["userMenuItems"]) {
-    //   let ids = JSON.parse(sessionStorage.getItem("userMenuItems"));
-    //   let newArr = [];
-    //   ids.forEach(id => {
-    //     let newMenuItem = this.menuItems.filter(mail => mail.id == id);
-    //     newArr.push(newMenuItem[0]);
-    //   });
-    //   this.menuItems = newArr; 
-    // }
-    // let ids = JSON.parse(sessionStorage.getItem("roles"));
+
     let newArr = [];
-    // console.log(this.menuItems[0].guard);
-    //getting roles from local Storage
+
     const roles = localStorage.getItem('roles');
-    //its saved as string so we parse it to json again
+
     const role = JSON.parse(roles)
-    //here we extract the Role Title from role Object
+    console.log(role);
+    
+    this.isAdmin = this.IsAdmin(role);
+    this.isUser = this.IsUser(role)
+    console.log(this.isAdmin);
+    
 
-    const adminRole = role[0].roleTitle
-    this.isAdmin = this.IsAdmin(adminRole);
+    // role.forEach(i => {
 
-
-
-    role.forEach(i => {
-      // console.log(i.roleTitle);
-
-      this.isUser = this.IsUser(i.roleTitle);
-
-      this.isExchanger = this.IsExchanger(i.roleTitle);
-      this.isVerifyKYC =  this.IsVerifyKYC(i.roleTitle);
-      this.isChangeRole = this.IsChangeRole(i.roleTitle);
-      this.isAnswerTicket = this.IsAnswerTicket(i.roleTitle);
-    });
+    //   this.isUser = this.IsUser(i.roleTitle);
+    //   this.isExchanger = this.IsExchanger(i.roleTitle);
+    //   this.isVerifyKYC =  this.IsVerifyKYC(i.roleTitle);
+    //   this.isChangeRole = this.IsChangeRole(i.roleTitle);
+    //   this.isAnswerTicket = this.IsAnswerTicket(i.roleTitle);
+    // });
 
 
-    const roleTitle = role[0].roleTitle
 
-    // let isAdmin = this.IsAdmin(roleTitle);
-    // let isUser = this.IsUser(roleTitle); 
-    // let isExchanger = this.isExchanger(roleTitle); 
+
+
     if (this.isAdmin) {
 
 
+      
       for (const item in this.menuItems) {
         let newMenuItem = this.menuItems.filter(item => item.guard == 'admin' || item.guard == 'any')
 
         newArr.push(newMenuItem[0]);
-        this.menuItems = newMenuItem;
+        console.log(this.menuItems);
+        
+       return this.menuItems = newMenuItem;
+        
       }
     }
     if (this.isUser) {
-      console.log('useerrrrr');
+
 
 
       for (const item in this.menuItems) {
@@ -108,7 +95,7 @@ export class SidebarComponent implements OnInit {
 
     }
     if (this.isVerifyKYC) {
-      console.log('verrrrrrrr');
+
 
 
       for (const item in this.menuItems) {
@@ -141,13 +128,12 @@ export class SidebarComponent implements OnInit {
       }
 
     }
-    console.log(this.menuItems);
 
   }
   IsAdmin(roleTitle) {
 
     let adminAccess = document.querySelector('#admin');
-    if (roleTitle == 'admin') {
+    if (roleTitle == 'Admin') {
       return true
     }
     else {
@@ -157,7 +143,7 @@ export class SidebarComponent implements OnInit {
   IsUser(roleTitle) {
 
 
-    if (roleTitle == 'user') {
+    if (roleTitle == 'User') {
       return true
     }
     else {

@@ -30,17 +30,18 @@ export class AuthService {
   authenticateUser(user) {
     let headers = new HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/authenticate', user, { headers: headers })
+    return this.http.post('http://localhost:3000/accounts/authenticate', user, { headers: headers })
       // .map(res => res.json());
   }
   forgetPass(email) {
     let headers = new   HttpHeaders();
     headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/users/forgotpassword', email, { headers: headers })
+    return this.http.post('http://localhost:3000/accounts/forgotpassword', email, { headers: headers })
       // .map(res => res.json());
   }
   updatekyc(form) {
-
+    console.log(form);
+    
 
     let headers = new HttpHeaders({
       'Authorization' : this.authToken
@@ -55,33 +56,15 @@ export class AuthService {
     body.append('birthDate', form.birth);
     body.append('telephone', form.phone);
     body.append('walletAddress', form.wallet);
-    body.append('address', form.address);
-    body.append('passportImage', form.image);
+    body.append('hasWallet', form.hasWallet);
+    body.append('passportImage', form.passportImage);
+    body.append('image', form.image);
     console.log(body);
     
     return this.http.post('http://localhost:3000/users/updatekyc', body, { headers: headers })
       // .map(res => res.json());
   }
-  verifykyc(form) {
-    let headers = new HttpHeaders({
-      'Authorization' : this.authToken
-    });
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/admins/verifykyc', form, { headers: headers })
-      // .map(res => res.json());
-  }
-  changeRole(form) {
-    let headers = new HttpHeaders({
-      'Authorization' : this.authToken
-    });
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
-    return this.http.post('http://localhost:3000/admins/changeroles', form, { headers: headers })
-      // .map(res => res.json());
-  }
+
   getProfile() {
     let headers = new HttpHeaders({
       'Authorization' : this.authToken
@@ -102,22 +85,22 @@ export class AuthService {
     return this.http.get('http://localhost:3000/users/getreferal', { headers: headers })
       // .map(res => res.json());
   }
-  adminKyc() {
-    let headers = new HttpHeaders({
-      'Authorization' : this.authToken
-    });
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/admins/verifykyc', { headers: headers })
-      // .map(res => res.json());
-  }
+  // adminKyc() {
+  //   let headers = new HttpHeaders({
+  //     'Authorization' : this.authToken
+  //   });
+  //   this.loadToken();
+  //   headers.append('Authorization', this.authToken);
+  //   headers.append('Content-Type', 'application/json');
+  //   return this.http.get('http://localhost:3000/admins/verifykyc', { headers: headers })
+  //     // .map(res => res.json());
+  // }
 
   storeUserData(token, user) {
 
     localStorage.setItem('id_token', token);
     localStorage.setItem('user', JSON.stringify(user));
-    localStorage.setItem('roles', JSON.stringify(user.roles));
+    localStorage.setItem('roles', JSON.stringify(user.accountType));
     this.authToken = token;
     this.roles = user.roles
     this.user = user;
@@ -131,26 +114,7 @@ export class AuthService {
     const roles = localStorage.getItem('roles');
     return roles;
   }
-  getUserList(){
-    let headers = new HttpHeaders({
-      'Authorization' : this.authToken
-    });
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/admins/listroles', { headers: headers })
-    .map(result => result);
-  }
-  getUserListKyc(){
-    let headers = new HttpHeaders({
-      'Authorization' : this.authToken
-    });
-    this.loadToken();
-    headers.append('Authorization', this.authToken);
-    headers.append('Content-Type', 'application/json');
-    return this.http.get('http://localhost:3000/admins/listkyc', { headers: headers })
-      // .map(res => res.json());
-  }
+
 
   getKyc(email){
     let headers = new HttpHeaders({
@@ -199,21 +163,7 @@ export class AuthService {
     // .map(result => result);
   }
 
-  activeUser(email){
 
-    this.loadToken();
-    let headers = new HttpHeaders({       'Authorization' : this.authToken     });
-
-    return this.http.post('http://localhost:3000/users/enable',email, { headers: headers })
-  }
-  deactiveUser(email){
-
-    
-    this.loadToken();
-    let headers = new HttpHeaders({       'Authorization' : this.authToken     });
-
-    return this.http.post('http://localhost:3000/users/disable',email, { headers: headers })
-  }
   listReceipt(){
         
     this.loadToken();
@@ -247,6 +197,47 @@ export class AuthService {
     body.append('receiptNumber', form.receiptNumber);
 
     return this.http.post('http://localhost:3000/users/receipt', body, { headers: headers })
+    
+  }
+  burn(form){
+    this.loadToken();
+    let headers = new HttpHeaders({       'Authorization' : this.authToken     });
+
+    return this.http.post('http://localhost:3000/users/burn',form, { headers: headers })
+    
+  }
+  listPendingBurn(){
+    this.loadToken();
+    let headers = new HttpHeaders({       'Authorization' : this.authToken     });
+
+    return this.http.get('http://localhost:3000/users/list-pending-burn', { headers: headers })
+  }
+  listAllBurn(){
+    this.loadToken();
+    let headers = new HttpHeaders({       'Authorization' : this.authToken     });
+
+    return this.http.get('http://localhost:3000/users/list-burn', { headers: headers })
+  }
+  verifyBurn(form){
+    // console.log(form);
+    
+    this.loadToken();
+    let headers = new HttpHeaders({       'Authorization' : this.authToken     });
+
+    return this.http.post('http://localhost:3000/users/burn-verify',form, { headers: headers })
+    
+  }
+  resendConfirmCode(form){
+    this.loadToken();
+    let headers = new HttpHeaders({       'Authorization' : this.authToken     });
+
+    return this.http.post('http://localhost:3000/users/burn-resend-token',form, { headers: headers })
+  }
+  rejectBurn(form){
+    this.loadToken();
+    let headers = new HttpHeaders({       'Authorization' : this.authToken     });
+
+    return this.http.post('http://localhost:3000/users/burn-cancel',form, { headers: headers })
     
   }
 }

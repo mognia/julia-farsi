@@ -123,3 +123,32 @@
     display: inline-block;
     margin-right: 2%;
 }
+.img-container{
+    border-top: 1px solid #b9b9b9;
+    padding: 22px;
+}
+.form-container{
+    padding: 21px 0;
+}
+.sampleImg{
+    text-align: center;
+    margin: 2% 0 2% 0px;
+}
+
+.sampleImg .card-text{
+    font-size: 18px;
+}
+.sampleImg .card-footer{
+    font-size: 20px;
+}
+
+.secondImg .img-container{
+    margin-left: 32%;
+}
+.radiobtn{
+    display: block;
+}
+.walletRadio{
+    margin: 2% 2%;
+    font-size: 19px;
+}
