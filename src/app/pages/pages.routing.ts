@@ -11,7 +11,7 @@ import { ResetPassComponent } from './reset-pass/reset-pass.component';
 import { UsersListComponent } from './users-list/users-list.component';
 import { UserBurnComponent } from './user-burn/user-burn.component';
 import { ExchangerUserListComponent } from './exchanger-user-list/exchanger-user-list.component';
-import { CompeletUserBuyComponent } from './compelet-user-buy/compelet-user-buy.component';
+
 import { AminBuysComponent } from './amin-buys/amin-buys.component';
 import { AdminBurnComponent } from './admin-burn/admin-burn.component';
 import { AddAdminComponent } from './addUser/add-admin/add-admin.component';
@@ -30,7 +30,7 @@ export const routes: Routes = [
             { path: 'ChangeRole', component:AdminUserListComponent, data: { breadcrumb: 'Change Role' } },
             { path: 'UserList', component:UsersListComponent, data: { breadcrumb: 'Users List' } },
             { path: 'referal', component:ReferalComponent, data: { breadcrumb: 'Referals' } },
-            { path: 'CompleteBuy', component:CompeletUserBuyComponent, data: { breadcrumb: 'ComptleteBuy' } }, 
+
             { path: 'UserBurn', component:UserBurnComponent, data: { breadcrumb: 'user Burn' } },  
             { path: 'adminBuys', component:AminBuysComponent, data: { breadcrumb: 'Admin Buys' } }, 
             { path: 'adminBurn', component:AdminBurnComponent, data: { breadcrumb: 'Admin Buys' } }, 

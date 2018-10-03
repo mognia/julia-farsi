@@ -50,7 +50,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { UsersListComponent } from './users-list/users-list.component';
 
 import { ExchangerUserListComponent } from './exchanger-user-list/exchanger-user-list.component';
-import { CompeletUserBuyComponent } from './compelet-user-buy/compelet-user-buy.component';
+
 import { AminBuysComponent } from './amin-buys/amin-buys.component';
 import { UserBurnComponent } from './user-burn/user-burn.component';
 import { AdminBurnComponent } from './admin-burn/admin-burn.component';
@@ -101,7 +101,6 @@ import { AddExchangerComponent } from './addUser/add-exchanger/add-exchanger.com
     
     ExchangerUserListComponent,
     
-    CompeletUserBuyComponent,
     
     AminBuysComponent,
     
