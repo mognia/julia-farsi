@@ -1,3 +1,75 @@
-<div widget class="card border-0 box-shadow" style=" font-size: 18px;   padding: 6%;">
-<p>asdasd</p>
+<div widget class="card border-0 box-shadow" style="text-align: left; font-size: 18px;   padding: 6%;">
+	<div style="margin-left: 40%;">
+		<p><button data-toggle="modal" data-target="#wallet" type="button" class="btn btn-primary w-200p mb-1 mr-1">درخواست انتقال</button> ثبت درخواست انتقال توکن به ولت</p>
+		<p><button data-toggle="modal" data-target="#withdraw" type="button" class="btn btn-primary w-200p mb-1 mr-1">درخواست تسویه</button> ثبت درخواست تسویه حساب</p>
+	</div>
+</div>
+
+
+<div class="modal fade" id="wallet" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">درخواست انتقال توکن به ولت</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<p class="fs-13 text-gray">لطفا جهت ثبت درخواست اطلاعات زیر را وارد نمایید</p>
+
+      	<div class="form-group">
+        	<label for="wallet-address">آدرس ولت ثبت شده در بخش احراز هویت</label>
+			<input type="text" class="form-control" id="wallet-address" disabled>
+		</div>
+
+		<div class="form-group">
+			<label for="token-amount">مقدار توکن جهت انتقال</label>
+			<input type="number" value="0" class="form-control" id="token-amount">
+		</div>
+
+		<div class="form-group">
+			<label for="password">رمز عبور</label>
+        	<input type="password" class="form-control" id="password">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success w-100p mb-1 mr-1">ثبت درخواست</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="withdraw" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">درخواست تسویه</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<p class="fs-13 text-gray">لطفا جهت ثبت درخواست اطلاعات زیر را وارد نمایید</p>
+
+		<div class="form-group">
+			<label for="token-amount">مقدار توکن جهت تسویه</label>
+			<input type="number" value="0" class="form-control" id="token-amount">
+
+
+        	<label for="withdrawable-amount">مبلغ قابل دریافت</label>
+			<input type="text" class="form-control" id="withdrawable-amount" disabled>
+		
+		</div>
+
+		<div class="form-group">
+			<label for="password">رمز عبور</label>
+        	<input type="password" class="form-control" id="password">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success w-100p mb-1 mr-1">ثبت درخواست</button>
+      </div>
+    </div>
+  </div>
 </div>
