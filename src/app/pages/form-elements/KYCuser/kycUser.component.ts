@@ -52,7 +52,7 @@ export class KycUserComponent implements OnInit{
      validAddress:boolean =true;
     fileExtensionMessage: any;
     userNumber;
-
+    kycCode;
     dateFormControl = new FormControl('', [
         Validators.required,
     ]);
@@ -182,8 +182,12 @@ export class KycUserComponent implements OnInit{
 
     }
     constructor( public dialog: MatDialog,router: Router, private authService: AuthService, private formBuilder: FormBuilder, private flashMessage: FlashMessagesService ) {
-
-
+        this.authService.gtKycCode()
+        this.authService.updatekyc('s')
+        this.authService.gtKycCode().subscribe(data=>{
+            this.kycCode = data['code']
+            
+        })
         
         this.router = router;
         this.steps = [
@@ -319,9 +323,10 @@ export class KycUserComponent implements OnInit{
         this.steps.forEach(step => step.valid = true);
 
         // console.log(this.details);
-        this.confirmed = true;
+
         this.authService.updatekyc(this.details).subscribe(data => {
             console.log(data);
+            this.confirmed = true;
 
             let msg = data['msg'];
             let success = data['success'];

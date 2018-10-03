@@ -176,6 +176,7 @@
                                                 <p>ارسال عکس شناسایی</p>
                                                 <footer> در این بخش باید مانند عکس نمونه از اطلاعات خواسته شده عکس بگیرید و ارسال
                                                     کنید </footer>
+                                                    <p class="kycCode">کد تایید شما : {{kycCode}}</p>
                                             </blockquote>
                                         </div>
                                     </div>
@@ -355,9 +356,8 @@
                 <div class="col bg-light p-5">
                     <div class="d-flex justify-content-center align-items-center flex-column bg-light confirmed-content">
                         <i *ngIf="dataSuccess" class="fa fa-check text-success" aria-hidden="true"></i>
+                        <i *ngIf="!dataSuccess" style="    font-size: 50px;" class="fa fa-times text-danger" aria-hidden="true"></i>
                         <h2 class="p-3">{{dataMsg}}</h2>
-
-                        <p class="p-2">درخواست احراز هویت ارسال شد منتظر تایید باشید </p>
                         <button class="btn btn-success" (click)="home()">Back to home</button>
                     </div>
                 </div>

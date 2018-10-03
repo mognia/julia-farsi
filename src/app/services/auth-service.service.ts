@@ -85,16 +85,16 @@ export class AuthService {
     return this.http.get('http://localhost:3000/users/getreferal', { headers: headers })
       // .map(res => res.json());
   }
-  // adminKyc() {
-  //   let headers = new HttpHeaders({
-  //     'Authorization' : this.authToken
-  //   });
-  //   this.loadToken();
-  //   headers.append('Authorization', this.authToken);
-  //   headers.append('Content-Type', 'application/json');
-  //   return this.http.get('http://localhost:3000/admins/verifykyc', { headers: headers })
-  //     // .map(res => res.json());
-  // }
+  gtKycCode(){
+    let headers = new HttpHeaders({
+      'Authorization' : this.authToken
+    });
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/users/kyc-code', { headers: headers })
+  }
 
   storeUserData(token, user) {
 

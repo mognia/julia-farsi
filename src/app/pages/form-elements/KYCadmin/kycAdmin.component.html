@@ -88,10 +88,21 @@
                               </mat-radio-group>
 
 
-                        <img src="/{{user.passportImageAddress}}" alt="">
+                        <img src="http://localhost:3000/{{user.passportImageAddress}}" alt="">
                         
                         <label class="label">عکس پاسپورت</label>
                 </div>
+                <div class="form-group">
+                    <mat-radio-group class="rad" formControlName="verifyPassportImage">
+                            <mat-radio-button  [value]="true">درست</mat-radio-button>
+                            <mat-radio-button  [value]="false">نادرست</mat-radio-button>
+                          </mat-radio-group>
+
+
+                    <img src="http://localhost:3000/{{user.image}}" alt="">
+                    
+                    <label class="label">عکس عکس شناسایی</label>
+            </div>
             <button  class="btn" type="submit">تایید</button>
         </form>
 

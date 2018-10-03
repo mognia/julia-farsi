@@ -205,4 +205,30 @@ export class AdminsService {
 
     return this.http.post('http://localhost:3000/admins/register-admin', body, { headers: headers })
   }
+  registerExchanger(form){
+    
+    let headers = new HttpHeaders({
+      'Authorization' : this.authToken
+    });
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    let body = new FormData();
+    body.append('email', form.email);
+    body.append('firstName', form.firstName);
+    body.append('lastName', form.lastName);
+    body.append('address', form.address);
+    body.append('telephone', form.telephone);
+    body.append('image', form.image);
+
+    return this.http.post('http://localhost:3000/admins/register-exchanger', body, { headers: headers })
+  }
+  exchangerList(){
+    let headers = new HttpHeaders({
+      'Authorization' : this.authToken
+    });
+    this.loadToken();
+    headers.append('Authorization', this.authToken);
+    headers.append('Content-Type', 'application/json');
+    return this.http.get('http://localhost:3000/admins/exchangers', { headers: headers })
+  }
 }
