@@ -20,6 +20,7 @@ export class ForgetPassResetComponent implements OnInit {
     fb:FormBuilder,
     private authService:AuthService,
     private flashMessage: FlashMessagesService) {
+      this.authService.ForgetResetPass('as')
       this.router = router;
       this.form = fb.group({
           'password': ['', Validators.compose([Validators.required, Validators.minLength(6)])]
@@ -40,7 +41,8 @@ export class ForgetPassResetComponent implements OnInit {
   public onSubmit(values:Object):void {
     if (this.form.valid) {
       values['resetpasswordtoken'] = this.resetpasswordtoken;
-      values['email'] = this.email
+      values['email'] = this.email;
+      values['password'] = this.form.value.password
       this.authService.ForgetResetPass(values).subscribe(data => {
         let msg = data['msg'];
         let success = data['success'];

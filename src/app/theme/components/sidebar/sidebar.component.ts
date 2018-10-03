@@ -38,8 +38,9 @@ export class SidebarComponent implements OnInit {
     console.log(role);
     
     this.isAdmin = this.IsAdmin(role);
-    this.isUser = this.IsUser(role)
-    console.log(this.isAdmin);
+    this.isUser = this.IsUser(role);
+    this.isExchanger = this.IsExchanger(role)
+    console.log(this.isExchanger);
     
 
     // role.forEach(i => {
@@ -153,7 +154,7 @@ export class SidebarComponent implements OnInit {
   IsExchanger(roleTitle) {
 
 
-    if (roleTitle == 'exchanger') {
+    if (roleTitle == 'Exchanger') {
       return true
     }
     else {

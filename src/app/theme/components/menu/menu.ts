@@ -18,7 +18,7 @@ export const verticalMenuItems = [
 
     new Menu (15, 'جستوجوی کاربر', '/pages/ExchangerUserList', null, 'keyboard-o', null, false, 0,'exchanger'),
     new Menu (17, 'مدیریت خرید ها', '/pages/adminBuys', null, 'caret-right', null, false, 0,'admin'),
-    new Menu (18, 'احراز هویت کاربر', '/pages/form-elements/UserKYC', null, 'magic', null, false, 0,'exchanger'),
+    // new Menu (18, 'احراز هویت کاربر', '/pages/form-elements/UserKYC', null, 'magic', null, false, 0,'exchanger'),
     new Menu (19, 'تیکت', '/pages/ticketing/UserTicket', null, 'magic', null, false, 0,'exchanger'),
     new Menu (20, 'احراز هویت ادمین', '/pages/form-elements/AdminKYC', null, 'caret-right', null, false, 0,'verifyKYC'),
     new Menu (21, 'تیکت', '/pages/ticketing/AdminTicket', null, 'caret-right', null, false, 0,'answerTicket'),
