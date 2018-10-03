@@ -17,6 +17,7 @@ import { AdminBurnComponent } from './admin-burn/admin-burn.component';
 import { AddAdminComponent } from './addUser/add-admin/add-admin.component';
 import { AddExchangerComponent } from './addUser/add-exchanger/add-exchanger.component';
 import { UserBuyComponent } from './user-buy/user-buy.component';
+import { UserBuyHistoryComponent } from './user-buy-history/user-buy-history.component';
 export const routes: Routes = [
     {
         path: '', 
@@ -32,6 +33,7 @@ export const routes: Routes = [
             { path: 'UserList', component:UsersListComponent, data: { breadcrumb: 'Users List' } },
             { path: 'referal', component:ReferalComponent, data: { breadcrumb: 'Referals' } },
             { path: 'UserBuy', component:UserBuyComponent, data: { breadcrumb: 'user Burn' } }, 
+            { path: 'UserBuyHistory', component:UserBuyHistoryComponent, data: { breadcrumb: 'user Burn' } }, 
             { path: 'UserBurn', component:UserBurnComponent, data: { breadcrumb: 'user Burn' } },  
             { path: 'adminBuys', component:AminBuysComponent, data: { breadcrumb: 'Admin Buys' } }, 
             { path: 'adminBurn', component:AdminBurnComponent, data: { breadcrumb: 'Admin Buys' } }, 

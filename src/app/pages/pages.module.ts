@@ -57,6 +57,7 @@ import { AdminBurnComponent } from './admin-burn/admin-burn.component';
 import { AddAdminComponent } from './addUser/add-admin/add-admin.component';
 import { AddExchangerComponent } from './addUser/add-exchanger/add-exchanger.component';
 import { UserBuyComponent } from './user-buy/user-buy.component';
+import { UserBuyHistoryComponent } from './user-buy-history/user-buy-history.component';
 
 
 
@@ -114,6 +115,8 @@ import { UserBuyComponent } from './user-buy/user-buy.component';
     AddExchangerComponent,
     
     UserBuyComponent,
+    
+    UserBuyHistoryComponent,
 
 
   ],

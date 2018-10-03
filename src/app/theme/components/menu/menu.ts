@@ -28,7 +28,7 @@ export const verticalMenuItems = [
     new Menu (25, 'ثبت ادمین', '/pages/addAdmin', null, 'keyboard-o', null, false, 24,'admin'),
     new Menu (26, 'ثبت صراف', '/pages/addExchanger', null, 'keyboard-o', null, false, 24,'admin'),
     new Menu (28, 'خرید', '/pages/UserBuy', null, '', null, true, 0,'user'),
-    new Menu (29, 'سوابق', '/pages/', null, 'keyboard-o', null, false, 28,'user'),
+    new Menu (29, 'سوابق', '/pages/UserBuyHistory', null, 'keyboard-o', null, false, 28,'user'),
     // new Menu (30, 'NGX DataTable', '/pages/tables/dynamic-tables/ngx', null, 'caret-right', null, false, 28,'admin'), 
 ]
 

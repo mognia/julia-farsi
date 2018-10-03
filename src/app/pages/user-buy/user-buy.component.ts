@@ -18,6 +18,7 @@ export class UserBuyComponent implements OnInit {
   dataSource;
   exchangers=[];
   public burnForm: FormGroup;
+  public completeReciptForm: FormGroup;
   public details: any = {};
   selectedRecipt;
   selectedExchangerEmail;
@@ -25,12 +26,15 @@ export class UserBuyComponent implements OnInit {
   success;
   err;
   pendingRecipts;
+  ax;
+  photo;
   ///
   exchangerEmail;
   reciptCode;
   amount;
   expiredDate;
   verificationCode;
+  receiptNumber;
   ///
   constructor(router: Router, private authService: AuthService,private exchangerService: ExchangerService, private formBuilder: FormBuilder,) { 
     this.authService.exchangerList().subscribe(data=>{
@@ -50,6 +54,9 @@ export class UserBuyComponent implements OnInit {
       'amount':['',Validators.required],
       'exchanger':['']
     });
+    this.completeReciptForm = this.formBuilder.group({
+      'img':['',Validators.required]
+    })
     this.selectedExchangerEmail = this.burnForm.value.exchanger;
   //   this.selectedExchanger = this.exchangers.filter(exchanger=>{
   //     this.selectedExchangerEmail == exchanger.email ;
@@ -72,9 +79,13 @@ export class UserBuyComponent implements OnInit {
       let success = data['success'];
       if (success) {
         this.success = true;
+        setTimeout(() => {
+          location.reload()
+      }, 4000);
       }
       if (!success) {
         this.err = true;
+        
       }
       
     })
@@ -83,7 +94,34 @@ export class UserBuyComponent implements OnInit {
     
     
   }
+  send(){
+    this.details.receipt = this.ax;
+    this.details.receiptNumber = this.receiptNumber;
+    if (this.completeReciptForm.valid) {
+      this.authService.uploadReceipt(this.details).subscribe(data=>{
+        console.log(data);
+        this.msg = data['msg'];
+        let success = data['success'];
+        if (success) {
+          this.success = true;
+          setTimeout(() => {
+            location.reload()
+        }, 4000);
+        }
+        if (!success) {
+          this.err = true;
+          setTimeout(() => {
+            location.reload()
+        }, 3000);
+        }
+        
+      })
+    }
+
+    
+  }
   getRecipt(code){
+    this.receiptNumber = code;
     this.pendingRecipts.forEach(element => {
       if (element.receiptNumber == code) {
         this.selectedRecipt = element;
@@ -95,5 +133,43 @@ export class UserBuyComponent implements OnInit {
     });
     
   }
+  PersonImage(event) {
+    let fileType = event.target.files[0].type;
+    let fileSize = event.target.files[0].size;
+        console.log(fileType);
 
+
+    if (fileType !='image/png') {
+        if (fileType !='image/jpg') {
+            if (fileType != 'image/jpeg') {
+                // document.getElementById('secondForm').reset();
+                // document.getElementById('imginput').value =''
+
+                console.log(event.target.files[0]);
+            }
+
+
+        }
+
+    }if(fileSize > 1000000){
+        // document.getElementById('secondForm').reset();
+        // event.target.files[0]='';
+
+
+    }
+    else{
+        console.log(event.target.files[0]);
+        this.ax =event.target.files[0];
+
+        const reader = new FileReader();
+        const file = event.target.files[0];
+        reader.onload = () => {
+            this.photo = reader.result;
+        }
+        reader.readAsDataURL(file);  
+
+    }
+    
+
+}
 }
