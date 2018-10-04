@@ -34,6 +34,7 @@ export class KycAdminComponent {
             verifyAddress: [false],
             verifyPassportImage: [false],
             verifyTelephone: [false],
+            verifyImage:[false],
             email:['']
         });
         this.email = this.form.controls['email'];
@@ -41,6 +42,7 @@ export class KycAdminComponent {
         this.adminsService.getUserListKyc().subscribe(data => {
 
             let users = data['users']
+
             console.log(data);
             if (users.length ==0) {
                 this.noUser=true;
@@ -71,7 +73,8 @@ export class KycAdminComponent {
         //     })
         // }
         value['email'] = this.userEmail
-
+        console.log(value);
+        
         this.adminsService.verifykyc(value).subscribe(data => {
             let msg = data['msg'];
             let success = data['success'];

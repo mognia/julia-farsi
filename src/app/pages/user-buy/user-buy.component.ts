@@ -57,7 +57,7 @@ export class UserBuyComponent implements OnInit {
     this.completeReciptForm = this.formBuilder.group({
       'img':['',Validators.required]
     })
-    this.selectedExchangerEmail = this.burnForm.value.exchanger;
+
   //   this.selectedExchanger = this.exchangers.filter(exchanger=>{
   //     this.selectedExchangerEmail == exchanger.email ;
   //  });
@@ -131,6 +131,15 @@ export class UserBuyComponent implements OnInit {
         this.amount = this.selectedRecipt.amount
       }
     });
+    
+  }
+  getExchanger(){
+    this.selectedExchangerEmail = this.burnForm.value.exchanger;
+    this.details.exchangerEmail = this.selectedExchangerEmail
+    this.authService.getExchanger(this.details).subscribe(data=>{
+      console.log(data);
+      
+    })
     
   }
   PersonImage(event) {

@@ -253,5 +253,14 @@ export class AuthService {
 
     return this.http.get('http://localhost:3000/users/exchangers', { headers: headers })
   }
+  getExchanger(email){
+    this.loadToken();
+    let headers = new HttpHeaders({
+      'Authorization' : this.authToken
+    });
+
+
+    return this.http.post('http://localhost:3000/users/exchanger',email, { headers: headers })
+  }
 
 }
