@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation,ViewChild } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl} from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { AuthService } from "../../services/auth-service.service";
@@ -6,6 +6,7 @@ import { AdminsService } from "../../services/admins.service";
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
 @Component({
   selector: 'app-amin-buys',
   templateUrl: './amin-buys.component.html',
@@ -13,7 +14,11 @@ import * as moment from 'moment';
   encapsulation: ViewEncapsulation.None
 })
 export class AminBuysComponent implements OnInit {
-  pendingReceipts;
+  router;
+  displayedColumns: string[] = ['exchanger',  'user','amount', 'status','details'];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  PendingDataSource;
+  pendingRecipts;
   approvedReceipts;
   rejectedReceipts;
   userImg;
@@ -26,11 +31,24 @@ export class AminBuysComponent implements OnInit {
   noApproved=false;
   btndisable=true;
   noRejected=false;
+  seeMore=false;
+  //
+  selectedRecipt;
+  exchangerEmail;
+  userEmail;
+  exchangerSubmitDate;
+  amount;
+  userDoc;
+  exchangerDoc;
+  //
+
   public approveForm: FormGroup;
   public rejectForm: FormGroup;
   public details: any = {};
   constructor(router: Router, private authService: AuthService,private adminsService: AdminsService, private fb: FormBuilder, private flashMessage: FlashMessagesService) {
+    this.router = router;
     this.adminsService.ListPending();
+
     this.approveForm =fb.group({
       'comment': [''],
 
@@ -40,19 +58,23 @@ export class AminBuysComponent implements OnInit {
 
     });
    }
+   
 
   ngOnInit() {
     this.adminsService.ListPending().subscribe(data=>{
 
-      this.pendingReceipts = data['receipts'];
-      console.log(this.pendingReceipts);
+      this.pendingRecipts = data['receipts'];
+      let pendingRecipts =  data['receipts'];
+      this.PendingDataSource = new MatTableDataSource(pendingRecipts);
+      this.PendingDataSource.paginator = this.paginator;
+      console.log(this.pendingRecipts);
       
-      if (this.pendingReceipts.length==0) {
+      if (this.pendingRecipts.length==0) {
         this.noPending = true;
       }
-      this.userImg = this.pendingReceipts.exchangerReceipt
+      this.userImg = this.pendingRecipts.exchangerReceipt
       this.exchangerImg = data['userReceipt']
-      this.pendingReceipts.forEach(i => {
+      this.pendingRecipts.forEach(i => {
         console.log(i.exchangerSubmitDate);
         
         i.exchangerSubmitDate= moment(i.exchangerSubmitDate).format('MM/DD/YYYY');
@@ -68,7 +90,7 @@ export class AminBuysComponent implements OnInit {
       if (this.approvedReceipts.length==0) {
         this.noApproved = true;
       }
-      this.userImg = this.pendingReceipts.exchangerReceipt
+      this.userImg = this.pendingRecipts.exchangerReceipt
       this.approvedReceipts.forEach(i => {
         console.log(i.exchangerSubmitDate);
         
@@ -94,8 +116,26 @@ export class AminBuysComponent implements OnInit {
       
     });
   }
+  backtoList(){
+    this.seeMore = false;
+  }
   getNum(num){
     this.reciptNum = num;
+    this.pendingRecipts.forEach(element => {
+      if (element.receiptNumber == num) {
+        this.selectedRecipt = element;
+        this.exchangerEmail = this.selectedRecipt.exchangerEmail;
+        this.userEmail = this.selectedRecipt.userEmail;
+        this.exchangerSubmitDate = this.selectedRecipt.exchangerSubmitDate;
+        this.amount = this.selectedRecipt.amount;
+        this.userDoc = this.selectedRecipt.userReceipt;
+        this.exchangerDoc = this.selectedRecipt.exchangerReceipt;
+      }
+    });
+    this.setSeeMore();
+  }
+  setSeeMore(){
+    this.seeMore = true
   }
   approve(){
     this.details.comment =this.approveForm.controls['comment'].value;
@@ -142,15 +182,15 @@ export class AminBuysComponent implements OnInit {
         if(success) {
           this.err = false;
           this.success = true;
-        //   setTimeout(() => {
-        //     location.reload()
-        // }, 3000);
+          setTimeout(() => {
+            location.reload()
+        }, 3000);
         } if(!success) {
           this.success = false;
           this.err = true;
-        //   setTimeout(() => {
-        //     location.reload()
-        // }, 3000); 
+          setTimeout(() => {
+            location.reload()
+        }, 3000); 
         }
         
       })   
