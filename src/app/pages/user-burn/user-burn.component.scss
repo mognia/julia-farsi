@@ -25,4 +25,13 @@ table {
 
   .mat-header-cell {
     font-size: 20px;
+
+}
+th.mat-header-cell {
+    text-align: right!important;
+    padding: 12px!important;
+}
+td.mat-cell {
+
+    padding: 12px!important;
 }

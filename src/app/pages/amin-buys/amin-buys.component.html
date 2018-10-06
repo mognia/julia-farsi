@@ -8,69 +8,7 @@
           <!-- <p class="card-text"><code>123123</code></p> -->
         </div>
       </div>
-      <!-- <table *ngIf="!noPending" class="table table-striped">
-        <thead>
-          <tr>
-            <th> تاریخ ثبت صراف</th>
-            <th>مقدار</th>
-            <th>رسید کاربر</th>
-            <th>ایمیل کاربر</th>
-            <th>رسید صراف</th>
-            <th>ایمیل صراف </th>
-            <th>وضعیت</th>
-            <th>شماره رسید</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor='let i of pendingReceipts'>
-            <td>{{i.exchangerSubmitDate}}</td>
-            <td>{{i.amount}}</td>
-            <td>
-              <button data-toggle="modal" data-target="#userImg" class="btn btn-outline-info w-100p mb-1 mr-1" type="button">رسید کاربر</button>
-            </td>
-            <td>{{i.userEmail}}</td>
-            <td>
-              <button data-toggle="modal" data-target="#exchangerImg" class="btn btn-outline-primary  w-100p mb-1 mr-1" type="button">رسید صراف</button>
-            </td>
-            <td>{{i.exchangerEmail}}</td>
-            <td>
-              <div aria-label="Second group" class="btn-group " role="group">
-                <button data-toggle="modal" data-target="#rejectModal" (click)="getNum(i.receiptNumber)" class="btn btn-danger" type="button">
-                  <i class="fa fa-times"></i>
-                </button>
-                <button data-toggle="modal" data-target="#approveModal" (click)="getNum(i.receiptNumber)" class="btn btn-success" type="button">
-                  <i class="fa fa-check"></i>
-                </button>
-              </div>
-            </td>
-            <td>{{i.receiptNumber}}</td>
-            <div class="modal fade" id="exchangerImg" tabindex="-1" role="dialog" style="display: none;">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-body">
-                    <img style="max-width:450px;" src="http://localhost:3000/{{i.exchangerReceipt}}" width="100%">
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="modal fade" id="userImg" tabindex="-1" role="dialog" style="display: none;">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-body">
-                    <img style="max-width:450px;" src="http://localhost:3000/{{i.userReceipt}}" width="100%">
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </tr>
-        </tbody>
-      </table> -->
+
       <div class="see" *ngIf='seeMore'>
         <div widget class="card border-0 box-shadow box">
           <div class="row">
@@ -376,7 +314,7 @@
 
 
 <div class="modal fade" id="approveModal" tabindex="-1" role="dialog" aria-labelledby="modal-warning-label">
-    <div *ngIf="!err && !success" class="modal-dialog" role="document">
+    <div *ngIf="!err && !success && haveUserReceipt && haveExchangerReceipt" class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header state modal-warning">
           <h4 class="modal-title" id="modal-warning-label">
@@ -406,6 +344,41 @@
           </form>
         </div>
   
+      </div>
+    </div>
+
+    <div *ngIf="!haveUserReceipt" class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header state modal-danger">
+          <h4 class="modal-title" id="modal-danger-label">
+            <i class="fa fa-exclamation"></i>Error</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">x</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          هنوز رسید مشتری ثبت نشده است
+        </div>
+        <div class="modal-footer">
+          <button type="button"  class="btn btn-default" data-dismiss="modal">بستن</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!haveExchangerReceipt" class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header state modal-danger">
+          <h4 class="modal-title" id="modal-danger-label">
+            <i class="fa fa-exclamation"></i>Error</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">x</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          هنوز رسید صراف ثبت نشده است
+        </div>
+        <div class="modal-footer">
+          <button type="button"  class="btn btn-default" data-dismiss="modal">بستن</button>
+        </div>
       </div>
     </div>
   
@@ -453,7 +426,7 @@
 
 
 <div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="modal-danger-label">
-  <div *ngIf="!err && !success" class="modal-dialog" role="document">
+  <div *ngIf="!err && !success && haveExchangerReceipt && haveUserReceipt" class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header state modal-danger">
         <h4 class="modal-title" id="modal-danger-label">
@@ -486,7 +459,40 @@
 
     </div>
   </div>
-
+  <div *ngIf="!haveUserReceipt" class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header state modal-danger">
+        <h4 class="modal-title" id="modal-danger-label">
+          <i class="fa fa-exclamation"></i>Error</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">x</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        هنوز رسید مشتری ثبت نشده است
+      </div>
+      <div class="modal-footer">
+        <button type="button"  class="btn btn-default" data-dismiss="modal">بستن</button>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!haveExchangerReceipt" class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header state modal-danger">
+        <h4 class="modal-title" id="modal-danger-label">
+          <i class="fa fa-exclamation"></i>Error</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">x</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        هنوز رسید صراف ثبت نشده است
+      </div>
+      <div class="modal-footer">
+        <button type="button"  class="btn btn-default" data-dismiss="modal">بستن</button>
+      </div>
+    </div>
+  </div>
   <div *ngIf="err" class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header state modal-danger">

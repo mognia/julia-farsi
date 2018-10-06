@@ -110,7 +110,7 @@ export class AddExchangerComponent implements OnInit {
 
 }
 goBack(){
-  this.router.navigate(['pages/addExchanger']);
+  location.reload();
 }
 
 }

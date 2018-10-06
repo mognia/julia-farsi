@@ -17,7 +17,7 @@ export class UserBuyComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource;
   exchangers=[];
-  public burnForm: FormGroup;
+  public ReceiptForm: FormGroup;
   public completeReciptForm: FormGroup;
   public details: any = {};
   selectedRecipt;
@@ -36,7 +36,17 @@ export class UserBuyComponent implements OnInit {
   verificationCode;
   receiptNumber;
   ///
+  preExchanger;
+  router;
+  balance
   constructor(router: Router, private authService: AuthService,private exchangerService: ExchangerService, private formBuilder: FormBuilder,) { 
+    this.router = router;
+    this.authService.getBalance().subscribe(data=>{
+      this.balance = data['balance']
+
+      console.log(data);
+      
+    });
     this.authService.exchangerList().subscribe(data=>{
       this.exchangers = data['exchangers'];
     });
@@ -50,9 +60,9 @@ export class UserBuyComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     })
 
-    this.burnForm = this.formBuilder.group({
+    this.ReceiptForm = this.formBuilder.group({
       'amount':['',Validators.required],
-      'exchanger':['']
+      'exchanger':['',Validators.required]
     });
     this.completeReciptForm = this.formBuilder.group({
       'img':['',Validators.required]
@@ -67,28 +77,42 @@ export class UserBuyComponent implements OnInit {
     
   }
 
-
+  onChange(value){
+    this.details.exchangerEmail = value
+    this.authService.getExchanger(this.details).subscribe(data=>{
+      this.preExchanger = data['exchanger'];
+      console.log(this.preExchanger);
+      
+    });
+  }
+  ViewuserDetail(email){
+    let url: string = "/pages/exchangerDetails?email=" + email;
+    this.router.navigateByUrl(url);
+  }
   ngOnInit() {
   }
   submit(){
-    this.details.exchangerEmail = this.burnForm.value.exchanger;
-    this.details.amount = this.burnForm.value.amount;
-    this.authService.createReceipt(this.details).subscribe(data=>{
-      console.log(data);
-      this.msg = data['msg'];
-      let success = data['success'];
-      if (success) {
-        this.success = true;
-        setTimeout(() => {
-          location.reload()
-      }, 4000);
-      }
-      if (!success) {
-        this.err = true;
+    if (this.ReceiptForm.valid) {
+      this.details.exchangerEmail = this.ReceiptForm.value.exchanger;
+      this.details.amount = this.ReceiptForm.value.amount;
+      this.authService.createReceipt(this.details).subscribe(data=>{
+        console.log(data);
+        this.msg = data['msg'];
+        let success = data['success'];
+        if (success) {
+          this.success = true;
+          setTimeout(() => {
+            location.reload()
+        }, 4000);
+        }
+        if (!success) {
+          this.err = true;
+          
+        }
         
-      }
-      
-    })
+      })
+    }
+
     // console.log(this.details);
     // console.log(this.selectedExchanger);
     
@@ -133,15 +157,15 @@ export class UserBuyComponent implements OnInit {
     });
     
   }
-  getExchanger(){
-    this.selectedExchangerEmail = this.burnForm.value.exchanger;
-    this.details.exchangerEmail = this.selectedExchangerEmail
-    this.authService.getExchanger(this.details).subscribe(data=>{
-      console.log(data);
+  // getExchanger(){
+  //   this.selectedExchangerEmail = this.ReceiptForm.value.exchanger;
+  //   this.details.exchangerEmail = this.selectedExchangerEmail
+  //   this.authService.getExchanger(this.details).subscribe(data=>{
+  //     this.fullExchanger = data['exchanger'];
       
-    })
+  //   });
     
-  }
+  // }
   PersonImage(event) {
     let fileType = event.target.files[0].type;
     let fileSize = event.target.files[0].size;

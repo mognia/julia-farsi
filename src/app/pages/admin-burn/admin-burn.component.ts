@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation,ViewChild } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, AbstractControl} from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { AuthService } from "../../services/auth-service.service";
@@ -6,6 +6,7 @@ import { AdminsService } from "../../services/admins.service";
 import { FlashMessagesService } from 'angular2-flash-messages';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import {MatPaginator, MatTableDataSource} from '@angular/material';
 @Component({
   selector: 'app-admin-burn',
   templateUrl: './admin-burn.component.html',
@@ -13,6 +14,14 @@ import * as moment from 'moment';
   encapsulation: ViewEncapsulation.None
 })
 export class AdminBurnComponent implements OnInit {
+  displayedColumns: string[] = ['status', 'submitDate', 'amount', 'tokenPrice','userEmail','reqNum'];
+
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  
+  pndingBurnDataSource;
+  approvedBurnDataSource;
+  rejectedBurnDataSource;
   pendingBurns;
   approvedBurns;
   rejectedBurns;
@@ -32,6 +41,8 @@ export class AdminBurnComponent implements OnInit {
       console.log(data);
       
       this.pendingBurns = data['burnRequests'];
+      this.pndingBurnDataSource = new MatTableDataSource(this.pendingBurns);
+      this.pndingBurnDataSource.paginator = this.paginator;
       if (this.pendingBurns.length==0) {
         this.noPending = true;
       }
@@ -44,6 +55,8 @@ export class AdminBurnComponent implements OnInit {
       console.log(data);
       
       this.approvedBurns = data['burnRequests'];
+      this.approvedBurnDataSource = new MatTableDataSource(this.approvedBurns);
+      this.approvedBurnDataSource.paginator = this.paginator;
       if (this.pendingBurns.length==0) {
         this.noApproved = true;
       }
@@ -56,6 +69,8 @@ export class AdminBurnComponent implements OnInit {
       console.log(data);
       
       this.rejectedBurns = data['burnRequests'];
+      this.rejectedBurnDataSource = new MatTableDataSource(this.rejectedBurns);
+      this.rejectedBurnDataSource.paginator = this.paginator;
       if (this.rejectedBurns.length==0) {
         this.noReject = true;
       }
@@ -118,15 +133,15 @@ export class AdminBurnComponent implements OnInit {
         if(success) {
           this.err = false;
           this.success = true;
-        //   setTimeout(() => {
-        //     location.reload()
-        // }, 3000);
+          setTimeout(() => {
+            location.reload()
+        }, 3000);
         } if(!success) {
           this.success = false;
           this.err = true;
-        //   setTimeout(() => {
-        //     location.reload()
-        // }, 3000); 
+          setTimeout(() => {
+            location.reload()
+        }, 3000); 
         }
         
       })   

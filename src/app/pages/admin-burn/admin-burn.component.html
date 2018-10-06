@@ -1,55 +1,70 @@
 <div widget class="card border-0 box-shadow box">
     <div class="row">
       <div class="col-md-12">
-        <div class="sectionTitle">
-          <p>لیست فروش های در انتظار تایید</p>
-        </div>
+
         <div *ngIf="noPending" style="    margin-bottom: 20px;" class="card card-outline-primary">
           <div class="card-body text-center">
-            <p class="text-primary">فعلا فروش در انتظار تایید وجود ندارد</p>
+ 
             <!-- <p class="card-text"><code>123123</code></p> -->
           </div>
         </div>
-        <table *ngIf="!noPending" class="table table-striped">
-          <thead>
-            <tr>
-                <th>تایید ایمیل</th>
-              <th> تاریخ ثبت</th>
-              <th>مقدار</th>
-              <th>ایمیل کاربر</th>
-
-              <th>وضعیت</th>
-              <th>شماره درخواست</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor='let i of pendingBurns'>
-                <td *ngIf='!i.verified'>
-                    <label class="Notconfirmedmail">ایمیل تایید نشده</label>
-                </td>
-                <td *ngIf='i.verified'>
-                    <label class="confirmedmail">ایمیل تایید شده</label>
-                </td>
-              <td>{{i.userSubmitDate}}</td>
-              <td>{{i.amount}}</td>
-              <td>{{i.userEmail}}</td>
-
-              <td>
-                <div aria-label="Second group" class="btn-group " role="group">
-                  <button data-toggle="modal" data-target="#rejectModal" (click)="getNum(i.BurnRequestNumber)" class="btn btn-danger" type="button">
-                    <i class="fa fa-times"></i>
-                  </button>
-                  <button data-toggle="modal" data-target="#approveModal" (click)="getNum(i.BurnRequestNumber)" class="btn btn-success" type="button">
-                    <i class="fa fa-check"></i>
-                  </button>
-                </div>
+        <div class="pendingTable">
+            <p class="mr-2" style="font-size: 20px">لیست تسویه حساب های در انتظار تایید</p>
+        <div class="mat-elevation-z8">
+          <table mat-table [dataSource]="pndingBurnDataSource" dir='ltr'>
+              <ng-container matColumnDef="userEmail">
+                  <th mat-header-cell *matHeaderCellDef> ایمیل کاربر </th>
+                  <td mat-cell *matCellDef="let element"> {{element.userEmail}} </td>
+                </ng-container>
+            <ng-container matColumnDef="reqNum">
+                <th mat-header-cell *matHeaderCellDef> شماره درخواست </th>
+                <td mat-cell *matCellDef="let element"> {{element.BurnRequestNumber}} </td>
+              </ng-container>
+            <ng-container matColumnDef="tokenPrice">
+              <th mat-header-cell *matHeaderCellDef> قیمت توکن </th>
+              <td mat-cell *matCellDef="let element">
+                {{element.tokenPrice}}
+  
               </td>
-              <td>{{i.BurnRequestNumber}}</td>
+            </ng-container>
+  
+            <ng-container matColumnDef="submitDate">
+              <th mat-header-cell *matHeaderCellDef> تاریخ ثبت </th>
+              <td mat-cell *matCellDef="let element">
+  
+                {{element.userSubmitDate}}
+              </td>
+            </ng-container>
+  
+            <ng-container matColumnDef="amount">
+              <th mat-header-cell *matHeaderCellDef> مبلغ </th>
+              <td mat-cell *matCellDef="let element">
+                {{element.amount}}
+              </td>
+            </ng-container>
+  
 
-            </tr>
-          </tbody>
-        </table>
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> وضعیت </th>
+                <td mat-cell *matCellDef="let element">
+                    <div aria-label="Second group" class="btn-group " role="group">
+                        <button data-toggle="modal" data-target="#rejectModal" (click)="getNum(element.BurnRequestNumber)" class="btn btn-danger" type="button">
+                          <i class="fa fa-times"></i>
+                        </button>
+                        <button data-toggle="modal" data-target="#approveModal" (click)="getNum(element.BurnRequestNumber)" class="btn btn-success" type="button">
+                          <i class="fa fa-check"></i>
+                        </button>
+                      </div>
+    
+                </td>
+              </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+  
+          <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        </div>
+      </div>
       </div>
     </div>
   
@@ -61,51 +76,66 @@
       <div class="row">
         <div class="col-md-12">
           <div class="sectionTitle">
-            <p>لیست خرید های تایید شده</p>
+
           </div>
           <div *ngIf="noApproved" style="    margin-bottom: 20px;" class="card card-outline-primary">
             <div class="card-body text-center">
               <p class="text-primary">فعلا خرید تایید شده ای وجود ندارد</p>
-              <!-- <p class="card-text"><code>123123</code></p> -->
+
             </div>
           </div>
-          <table class="table table-striped">
-              <thead>
-                <tr>
-                    <th>تایید ایمیل</th>
-                  <th> تاریخ ثبت </th>
-                  <th>مقدار</th>
-                  <!-- <th>رسید کاربر</th> -->
-                  <th>ایمیل کاربر</th>
-                  <!-- <th>رسید صراف</th> -->
-                  <th>وضعیت</th>
-                  <th>شماره درخواست</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor='let i of approvedBurns'>
-                    <td *ngIf='!i.verified'>
-                        <label class="Notconfirmedmail">ایمیل تایید نشده</label>
-                    </td>
-                    <td *ngIf='i.verified'>
-                        <label class="confirmedmail">ایمیل تایید شده</label>
-                    </td>
-                  <td>{{i.userSubmitDate}}</td>
-                  <td>{{i.amount}}</td>
-                  <!-- <td><button data-toggle="modal" data-target="#userImg" class="btn btn-outline-info w-100p mb-1 mr-1" type="button">رسید کاربر</button></td> -->
-                  <td>{{i.userEmail}}</td>
-                  <!-- <td><button data-toggle="modal" data-target="#exchangerImg" class="btn btn-outline-primary  w-100p mb-1 mr-1" type="button">رسید صراف</button></td> -->
-      
-                  <td>
-      
-                    <span class="badge  mr-1" [ngClass]="{'badge-danger': i.status=='Closed'||i.status=='Canceled', 'badge-info': i.status=='Pending', 'badge-success': i.status=='Approved'}">
-                      {{i.status}}</span>
+          <div class="pendingTable">
+              <p class="mr-2" style="font-size: 20px"> لیست تسویه حساب های تایید شده</p>
+          <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="approvedBurnDataSource" dir='ltr'>
+                <ng-container matColumnDef="userEmail">
+                    <th mat-header-cell *matHeaderCellDef> ایمیل کاربر </th>
+                    <td mat-cell *matCellDef="let element"> {{element.userEmail}} </td>
+                  </ng-container>
+              <ng-container matColumnDef="reqNum">
+                  <th mat-header-cell *matHeaderCellDef> شماره درخواست </th>
+                  <td mat-cell *matCellDef="let element"> {{element.BurnRequestNumber}} </td>
+                </ng-container>
+              <ng-container matColumnDef="tokenPrice">
+                <th mat-header-cell *matHeaderCellDef> قیمت توکن </th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.tokenPrice}}
+    
+                </td>
+              </ng-container>
+    
+              <ng-container matColumnDef="submitDate">
+                <th mat-header-cell *matHeaderCellDef> تاریخ ثبت </th>
+                <td mat-cell *matCellDef="let element">
+    
+                  {{element.userSubmitDate}}
+                </td>
+              </ng-container>
+    
+              <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef> مبلغ </th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.amount}}
+                </td>
+              </ng-container>
+    
+  
+              <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef> وضعیت </th>
+                  <td mat-cell *matCellDef="let element">
+                      <span class="badge  mr-1" [ngClass]="{'badge-danger': element.status=='Closed'||element.status=='Canceled', 'badge-info': element.status=='Pending', 'badge-success': element.status=='Approved'}">
+                          {{element.status}}</span>
       
                   </td>
-                  <td>{{i.BurnRequestNumber}}</td>
-                </tr>
-              </tbody>
+                </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
+    
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+        </div>
+
         </div>
       </div>
     
@@ -116,7 +146,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="sectionTitle">
-              <p>لیست خرید های تایید شده</p>
+
             </div>
             <div *ngIf="noRejecte" style="    margin-bottom: 20px;" class="card card-outline-primary">
               <div class="card-body text-center">
@@ -124,43 +154,57 @@
                 <!-- <p class="card-text"><code>123123</code></p> -->
               </div>
             </div>
-            <table class="table table-striped">
-                <thead>
-                  <tr>
-                      <th>تایید ایمیل</th>
-                    <th> تاریخ ثبت </th>
-                    <th>مقدار</th>
-                    <!-- <th>رسید کاربر</th> -->
-                    <th>ایمیل کاربر</th>
-                    <!-- <th>رسید صراف</th> -->
-                    <th>وضعیت</th>
-                    <th>شماره درخواست</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor='let i of rejectedBurns'>
-                      <td *ngIf='!i.verified'>
-                          <label class="Notconfirmedmail">ایمیل تایید نشده</label>
-                      </td>
-                      <td *ngIf='i.verified'>
-                          <label class="confirmedmail">ایمیل تایید شده</label>
-                      </td>
-                    <td>{{i.userSubmitDate}}</td>
-                    <td>{{i.amount}}</td>
-                    <!-- <td><button data-toggle="modal" data-target="#userImg" class="btn btn-outline-info w-100p mb-1 mr-1" type="button">رسید کاربر</button></td> -->
-                    <td>{{i.userEmail}}</td>
-                    <!-- <td><button data-toggle="modal" data-target="#exchangerImg" class="btn btn-outline-primary  w-100p mb-1 mr-1" type="button">رسید صراف</button></td> -->
-        
-                    <td>
-        
-                      <span class="badge  mr-1" [ngClass]="{'badge-danger': i.status=='Rejected'||i.status=='Canceled', 'badge-info': i.status=='Pending', 'badge-success': i.status=='Approved'}">
-                        {{i.status}}</span>
+            <div class="pendingTable">
+                <p class="mr-2" style="font-size: 20px"> لیست تسویه حساب های رد شده</p>
+            <div class="mat-elevation-z8">
+              <table mat-table [dataSource]="rejectedBurnDataSource" dir='ltr'>
+                  <ng-container matColumnDef="userEmail">
+                      <th mat-header-cell *matHeaderCellDef> ایمیل کاربر </th>
+                      <td mat-cell *matCellDef="let element"> {{element.userEmail}} </td>
+                    </ng-container>
+                <ng-container matColumnDef="reqNum">
+                    <th mat-header-cell *matHeaderCellDef> شماره درخواست </th>
+                    <td mat-cell *matCellDef="let element"> {{element.BurnRequestNumber}} </td>
+                  </ng-container>
+                <ng-container matColumnDef="tokenPrice">
+                  <th mat-header-cell *matHeaderCellDef> قیمت توکن </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.tokenPrice}}
+      
+                  </td>
+                </ng-container>
+      
+                <ng-container matColumnDef="submitDate">
+                  <th mat-header-cell *matHeaderCellDef> تاریخ ثبت </th>
+                  <td mat-cell *matCellDef="let element">
+      
+                    {{element.userSubmitDate}}
+                  </td>
+                </ng-container>
+      
+                <ng-container matColumnDef="amount">
+                  <th mat-header-cell *matHeaderCellDef> مبلغ </th>
+                  <td mat-cell *matCellDef="let element">
+                    {{element.amount}}
+                  </td>
+                </ng-container>
+      
+    
+                <ng-container matColumnDef="status">
+                    <th mat-header-cell *matHeaderCellDef> وضعیت </th>
+                    <td mat-cell *matCellDef="let element">
+                        <span class="badge  mr-1" [ngClass]="{'badge-danger': element.status=='Rejected'||element.status=='Canceled', 'badge-info': element.status=='Pending', 'badge-success': element.status=='Approved'}">
+                            {{element.status}}</span>
         
                     </td>
-                    <td>{{i.BurnRequestNumber}}</td>
-                  </tr>
-                </tbody>
+                  </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>
+      
+              <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+            </div>
+          </div>
           </div>
         </div>
       

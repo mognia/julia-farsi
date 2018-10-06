@@ -1,0 +1,101 @@
+<section class="progress-bar">
+    <mat-progress-bar color="primary" mode="query" *ngIf="querySent">
+    </mat-progress-bar>
+</section>
+<mat-horizontal-stepper class="stepper-container" [linear]="isLinear" #stepper dir="rtl">
+    <mat-step [stepControl]="firstFormGroup">
+        <form class="user-info" [formGroup]="firstFormGroup">
+            <ng-template matStepLabel>مشاهده کاربر</ng-template>
+            <div class="row-container">
+                <div class="info-container">
+                    <div class="row-container">
+                        <div class="item-right row-container">
+                            <p> نام و نام خانوادگی: </p>
+                            <p>{{ user.userInfo.firstName }} {{ user.userInfo.lastName }}</p>
+                        </div>
+                    </div>
+                    <div class="row-container">
+                        <div class="item-right row-container">
+                            <p> شماره تماس: </p>
+                            <p>{{ user.userInfo.telephone }}</p>
+                        </div>
+                    </div>
+                    <div class="row-container">
+                        <div class="item-right row-container">
+                            <p> ایمیل: </p>
+                            <p>{{ user.userInfo.email }}</p>
+                        </div>
+                    </div>
+                    <div class="row-container">
+                        <div class="item-right row-container">
+                            <p> تاریخ ثبت نام: </p>
+                            <p>{{ user.userInfo.registeredDate }}</p>
+                        </div>
+                    </div>
+                    <div class="row-container">
+                        <div class="item-right row-container">
+                            <p> موجودی: </p>
+                            <p>{{ user.userInfo.balance }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="image-wrapper">
+                    <img [src]="'http://localhost:3000/'+imageSource" alt="" (click)="changeImageSource()">
+                </div>
+            </div>
+            <div class="btn-wrapper">
+                <button mat-raised-button color="accent" matStepperNext>مرحله بعد</button>
+            </div>
+        </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+        <form class="user-receipt" [formGroup]="secondFormGroup">
+            <ng-template matStepLabel>مشاهده رسید</ng-template>
+            <div class="row-container">
+                <div class="info-container">
+                    <div class="row-container">
+                        <div class="item-right row-container">
+                            <p> کد سفارش:</p>
+                            <p>{{ user.userReceipt.receiptNumber }}</p>
+                        </div>
+                    </div>
+                    <div class="row-container">
+                        <div class="item-right row-container">
+                            <p>مبلغ قابل خرید:</p>
+                            <p>{{ user.userReceipt.amount }}</p>
+                        </div>
+                    </div>
+                    <div class="row-container">
+                        <div class="row-container">
+                            <p>تاریخ انقضا :</p>
+                            <p>{{ user.userReceipt.codeExpiration }}</p>
+                        </div>
+                    </div>
+                    <div class="row-container">
+                        <div class="item-right row-container">
+                            <mat-form-field>
+                                <input matInput placeholder="مبلغ واریزی">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row-container">
+                        <mat-form-field>
+                            <textarea style="width: 100%" matInput placeholder="توضیحات"  #comment></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="image-wrapper">
+                    <img [attr.src]="photo" height="200"> <br/>
+                    <input hidden="true" id="input-file-id" type="file" (change)="onSelectFile($event)"/>
+                    <button style="height: 40px; border-radius: 20px;" mat-stroked-button color="primary">
+                        <label style="margin: 0px;" for="input-file-id">Choose Files</label>
+                    </button>
+                </div>
+            </div>
+            <div class="btn-wrapper">
+                <button mat-raised-button color="accent" matStepperNext (click)="confirmUser(comment.value)">تایید</button>
+                <button mat-button color="primary" matStepperPrevious>بازگشت</button>
+            </div>
+        </form>
+    </mat-step>
+</mat-horizontal-stepper>

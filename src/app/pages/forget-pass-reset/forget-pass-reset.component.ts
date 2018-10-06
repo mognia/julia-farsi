@@ -49,7 +49,7 @@ export class ForgetPassResetComponent implements OnInit {
 
         if(success) {
           this.flashMessage.show(msg, {cssClass: 'alert-success', timeout: 5000});
-          this.router.navigate(['/login']);
+          this.router.navigate(['/pages']);
         } else {
           this.flashMessage.show(msg, {cssClass: 'alert-danger', timeout: 5000});
         }

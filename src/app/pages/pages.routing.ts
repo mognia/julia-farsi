@@ -18,6 +18,9 @@ import { AddAdminComponent } from './addUser/add-admin/add-admin.component';
 import { AddExchangerComponent } from './addUser/add-exchanger/add-exchanger.component';
 import { UserBuyComponent } from './user-buy/user-buy.component';
 import { UserBuyHistoryComponent } from './user-buy-history/user-buy-history.component';
+import { ExchangerDetailsComponent } from './exchanger-details/exchanger-details.component';
+import { UserBurnHistoryComponent } from './user-burn-history/user-burn-history.component';
+import { ExchangerHistoryListComponent } from './exchanger-history-list/exchanger-history-list.component';
 export const routes: Routes = [
     {
         path: '', 
@@ -42,6 +45,9 @@ export const routes: Routes = [
             { path: 'ticketing', loadChildren: 'app/pages/ticketing/ticketing.module#TicketingModule', data: { breadcrumb: 'Ticketing' } },
             { path: 'addAdmin', component:AddAdminComponent, data: { breadcrumb: 'Reset Password' } },   
             { path: 'addExchanger', component:AddExchangerComponent, data: { breadcrumb: 'Reset Password' } },   
+            { path: 'exchangerDetails', component:ExchangerDetailsComponent, data: { breadcrumb: 'Reset Password' } }, 
+            { path: 'UserBurnHistory', component:UserBurnHistoryComponent, data: { breadcrumb: 'Reset Password' } }, 
+            { path: 'ExchangerHistoryList', component:ExchangerHistoryListComponent, data: { breadcrumb: 'Reset Password' } }, 
 
        ]
     }

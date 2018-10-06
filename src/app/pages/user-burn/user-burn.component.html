@@ -1,4 +1,4 @@
-<div widget class="card border-0 box-shadow" style="text-align: left; font-size: 18px;   padding: 6%;">
+<div widget class="card border-0 box-shadow" style="text-align: left; font-size: 18px;   padding: 6%;margin-bottom: 22px;">
     <div style="    margin-bottom: 20px;" class="card card-outline-primary">
         <div class="card-body text-center">
           <p class="text-primary">: موجودی</p>
@@ -11,6 +11,61 @@
 	</div>
 </div>
 
+<div widget class="card border-0 box-shadow box">
+
+    <div class="row">
+        <div class="col-md-12">
+          <div class="pendingTable">
+              <p class="mr-2" style="font-size: 20px">لیست تسویه حساب های در انتظار تایید</p>
+          <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" dir='ltr'>
+
+              <ng-container matColumnDef="reqNum">
+                  <th mat-header-cell *matHeaderCellDef> شماره درخواست </th>
+                  <td mat-cell *matCellDef="let element"> {{element.BurnRequestNumber}} </td>
+                </ng-container>
+              <ng-container matColumnDef="tokenPrice">
+                <th mat-header-cell *matHeaderCellDef> قیمت توکن </th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.tokenPrice}}
+    
+                </td>
+              </ng-container>
+    
+              <ng-container matColumnDef="submitDate">
+                <th mat-header-cell *matHeaderCellDef> تاریخ ثبت </th>
+                <td mat-cell *matCellDef="let element">
+    
+                  {{element.userSubmitDate}}
+                </td>
+              </ng-container>
+    
+              <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef> مبلغ </th>
+                <td mat-cell *matCellDef="let element">
+                  {{element.amount}}
+                </td>
+              </ng-container>
+    
+
+              <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef> وضعیت </th>
+                  <td mat-cell *matCellDef="let element">
+                      <span [ngClass]="{'badge-danger': element.status=='Closed'||element.status=='Canceled', 'badge-info': element.status=='Pending'}"
+                      style="cursor: pointer;" class="badge badge-success mr-1">{{element.status}}</span>  
+      
+                  </td>
+                </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+    
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+          </div>
+        </div>
+        </div>
+      </div>
+</div>
 
 <div class="modal fade" id="wallet" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -56,25 +111,35 @@
         </button>
       </div>
       <div class="modal-body">
-      	<p class="fs-13 text-gray">لطفا جهت ثبت درخواست اطلاعات زیر را وارد نمایید</p>
+        <p class="fs-13 text-gray">لطفا جهت ثبت درخواست اطلاعات زیر را وارد نمایید</p>
+        <!-- <div *ngIf= class="alert alert-danger alert-dismissible fade show" role="alert">
+          <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+            <span aria-hidden="true">×</span>
+          </button>
+          {{Msg}} 
+        </div> -->
+        <flash-messages></flash-messages>
+        <form [formGroup]="burnForm">
+            <div class="form-group">
+                <label for="token-amount">مقدار توکن جهت تسویه</label>
+                <input formControlName='amount' type="number" value="0" class="form-control" id="token-amount">
+          
+                <label class="mr-2">###</label>
+                    <label for="withdrawable-amount">مبلغ قابل دریافت</label>
+          
+                <!-- <input type="text" class="form-control" id="withdrawable-amount" disabled> -->
+              
+              </div>
+          
+              <div class="form-group">
+                <label for="password">رمز عبور</label>
+                    <input formControlName='password' type="password" class="form-control" id="password">
+                  </div>
+        </form>
 
-		<div class="form-group">
-			<label for="token-amount">مقدار توکن جهت تسویه</label>
-			<input type="number" value="0" class="form-control" id="token-amount">
-
-
-        	<label for="withdrawable-amount">مبلغ قابل دریافت</label>
-			<input type="text" class="form-control" id="withdrawable-amount" disabled>
-		
-		</div>
-
-		<div class="form-group">
-			<label for="password">رمز عبور</label>
-        	<input type="password" class="form-control" id="password">
-        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success w-100p mb-1 mr-1">ثبت درخواست</button>
+        <button (click)='burn()' type="button" class="btn btn-success w-100p mb-1 mr-1">ثبت درخواست</button>
       </div>
     </div>
   </div>

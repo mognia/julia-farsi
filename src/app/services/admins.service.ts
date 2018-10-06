@@ -119,6 +119,8 @@ export class AdminsService {
     return this.http.post('http://localhost:3000/admins/reject-burn',form, { headers: headers })
   }
   approveBurn(form){
+    console.log(form);
+    
     let headers = new HttpHeaders({
       'Authorization' : this.authToken
     });

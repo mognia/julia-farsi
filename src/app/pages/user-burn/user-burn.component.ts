@@ -16,11 +16,12 @@ import {MatPaginator, MatTableDataSource} from '@angular/material';
   encapsulation: ViewEncapsulation.None
 })
 export class UserBurnComponent implements OnInit {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol','BurnRequestNumber'];
+  displayedColumns: string[] = ['submitDate', 'amount', 'status', 'tokenPrice','reqNum'];
 
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  dataSource
+  dataSource;
+
   public burnForm: FormGroup;
   public confirmForm: FormGroup;
   public rejectForm : FormGroup;
@@ -43,7 +44,7 @@ export class UserBurnComponent implements OnInit {
 
     this.burnForm = this.formBuilder.group({
       'amount':['',Validators.required],
-      'comment':['']
+      'password':['',Validators.required]
     });
     this.confirmForm = this.formBuilder.group({
       'code':['',Validators.required],
@@ -55,7 +56,8 @@ export class UserBurnComponent implements OnInit {
     this.authService.listPendingBurn().subscribe(data=>{
       this.PendingBurnRequests = data['burnRequests'];
       console.log(this.PendingBurnRequests);
-      
+      this.dataSource = new MatTableDataSource(this.PendingBurnRequests);
+      this.dataSource.paginator = this.paginator;
       this.PendingBurnRequests.forEach(i => {
 
         i.userSubmitDate= moment(i.userSubmitDate).format('MM/DD/YYYY');
@@ -68,21 +70,7 @@ export class UserBurnComponent implements OnInit {
       console.log(data);
       
     });
-    this.authService.listAllBurn().subscribe(data=>{
 
-      
-      this.allBurnRequests = data['burnRequest'];
-      console.log(this.allBurnRequests);
-
-      this.dataSource = new MatTableDataSource(this.allBurnRequests);
-      this.dataSource.paginator = this.paginator;
-      
-      this.allBurnRequests.forEach(i => {
-
-        i.userSubmitDate= moment(i.userSubmitDate).format('MM/DD/YYYY');
-    });
-      
-    });
   }
 
   ngOnInit() {
@@ -177,24 +165,24 @@ export class UserBurnComponent implements OnInit {
   }
   burn(){
     if (this.burnForm.valid) {
-      this.details.comment =this.burnForm.controls['comment'].value;
+      this.details.password =this.burnForm.controls['password'].value;
       this.details.amount =this.burnForm.controls['amount'].value;
       this.authService.burn(this.details).subscribe(data=>{
         this.Msg = data['msg'];
         let success = data['success'];
         if (success) {
           this.success = true;
-          
+          this.flashMessage.show(this.Msg, {cssClass: 'alert-success', timeout: 10000});
           setTimeout(() => {
             location.reload()
         }, 5000);
         }
         if (!success) {
-          this.flashMessage.show(this.Msg, {cssClass: 'alert-success', timeout: 10000});
+          this.flashMessage.show(this.Msg, {cssClass: 'alert-danger', timeout: 10000});
           this.notSuccess = true;
-          setTimeout(() => {
-            location.reload()
-        }, 5000);
+        //   setTimeout(() => {
+        //     location.reload()
+        // }, 5000);
         }
         console.log(data);
         

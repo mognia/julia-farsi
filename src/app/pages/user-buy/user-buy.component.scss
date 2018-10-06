@@ -67,7 +67,7 @@ td.mat-cell {
     padding: 12px!important;
 }
 .pendingTable{
-    padding: 9% 14px;
+    padding: 3% 14px;
 }
 .attch{
     border-top: 1px solid #6c757d;
@@ -77,3 +77,22 @@ td.mat-cell {
     background: #00000014;
     padding: 12px;
 }
+.card-body {
+    flex: 1 1 auto;
+    padding: 2.25rem;
+}
+.preExchanger{
+    padding-right: 12px;
+}
+.addressLabel{
+    font-size: 13px!important;padding: 11px;
+}
+.exchangerLabel{
+    color: blue;
+}
+.balanceArea{
+    font-size: 20px;
+}
+// .exchangerImg{
+//     border-radius: 50%;
+// }

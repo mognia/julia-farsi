@@ -1,63 +1,105 @@
-.verifyTxt{
-    color: blue;
-    display: inline-block;
-}
-.verifyTitle{
-    display: inline-block;
-}
-.buyForm p{
-    display: inline-block;
-    padding: 12px;
-    font-size: 19px;
-}
-.amount{
-    padding: 6% 0;
-}
-.amount input{
-    display: inline-block;
-}
-.comment input{
-    display: inline-block;
-}
-.m-img-upload-btn{
-    position: absolute;
-    padding: 0;
-    width: calc(100% - 30px);
-    height: 38px;
-    opacity: 0;
-}
-.images-container{
+.full-width {
     width: 100%;
-    top: 15px;
-    border: 2px dashed #ccc;
-    background: rgb(241, 241, 241);
-    min-height: 293px;
-    padding: 10px;
-    display: block;
-    .m-image-wrapper{
-        position: relative;
-        display: inline-block;
-        margin: 10px;
-        width: 120px;
-        height: 120px;
-        .m-delete-img{
-            position: absolute;
-            top: 8px;
-            right: 10px;
-            border: 2px solid #fff;
-            color: #fff;
-            padding: 3px 5px;
-            border-radius: 50%;
-            visibility: hidden;
-            cursor: pointer;
-        }
-        &:hover .m-delete-img{
-            visibility: visible;
-        }
-        img{
-           width: 120px;
-           height: 120px;          
-        }
-    }   
 }
 
+h2 {
+    font-family: 'iransans';
+}
+
+label.mat-form-field-label {
+    font-family: 'iransans'
+}
+
+
+.container {
+
+    
+
+    .result-container {
+        margin-top: 20px;
+
+        .item-right {
+            width: 40%;
+            margin-right: 10%;
+            padding: 10px;
+            font-size: 18px;
+            text-align: right;
+        }
+
+        .item-left {
+            width: 40%;
+            padding: 10px;
+            font-size: 18px;
+            text-align: right;
+        }
+        
+    }
+
+    table {
+        width: 100%;
+    }
+
+    th.mat-header-cell {
+        text-align: right !important;
+        padding-right: 24px !important;
+        padding-left: 0px !important;
+        font-family: 'iransans';
+        font-size: 16px;
+    }
+
+    td.mat-cell {
+        padding-right: 24px !important;
+        padding-left: 0px !important;
+    }
+
+
+    button.mat-button {
+        font-family: 'iransans';
+        font-size: 16px;
+        outline: none;
+    }
+
+    .filter {
+        .mat-form-field {
+            font-size: 14px;
+            width: 100%;
+        }
+
+        /deep/ .matInput::placeholder {
+            font-family: 'iransans' !important; 
+        }
+        
+        .pending-chkbox-container {
+            font-family: 'iransans';
+            margin-top: auto;
+            margin-bottom: auto;
+            margin-right: auto;
+            margin-left: 5%;
+            text-align: center;
+
+            .mat-checkbox {
+                font-family: 'iransans'; 
+            }
+        }
+    
+    }
+    
+}
+
+.mat-simple-snackbar {
+    display: flex;
+    direction: rtl;
+    font-family: 'iransans';
+    font-size: 18px;
+}
+
+// .mat-simple-snackbar-action {
+//     font-family: 'iransans';
+//     font-size: 18px;
+// }
+
+.verification {
+    .mat-dialog-container {
+        padding: 0;
+    }
+}

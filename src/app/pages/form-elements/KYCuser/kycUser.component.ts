@@ -51,7 +51,7 @@ export class KycUserComponent implements OnInit{
      fileExtensionError: boolean ;
      validAddress:boolean =true;
     fileExtensionMessage: any;
-    userNumber;
+    balance;
     kycCode;
     dateFormControl = new FormControl('', [
         Validators.required,
@@ -168,22 +168,27 @@ export class KycUserComponent implements OnInit{
         if (this.reseted) {
             user.KYCVerified = false;
            
-        } else if (user.KYCVerified) {
-            this.KYCVerified=true;
-            this.firstName = user.firstName;
-            this.lastname = user.lastName;
-            this.address = user.address;
-            this.email = user.email;
-            this.passImg = user.passportImageAddress;
-            this.telephone = user.telephone;
-            this.walletAddress =user.walletAddress;
-            this.userNumber = user.UserNumber;
-        }
+        } 
 
     }
     constructor( public dialog: MatDialog,router: Router, private authService: AuthService, private formBuilder: FormBuilder, private flashMessage: FlashMessagesService ) {
         this.authService.gtKycCode()
-        this.authService.updatekyc('s')
+        this.authService.updatekyc('s');
+        this.authService.getProfile().subscribe(data=>{
+            console.log(data);
+            let user = data['user'];
+            if (user.KYCVerified) {
+                this.KYCVerified=true;
+                this.firstName = user.firstName;
+                this.lastname = user.lastName;
+                this.address = user.address;
+                this.email = user.email;
+                this.passImg = user.passportImageAddress;
+                this.telephone = user.telephone;
+                this.walletAddress =user.walletAddress;
+                this.balance = user.balance;
+            }
+        })
         this.authService.gtKycCode().subscribe(data=>{
             this.kycCode = data['code']
             

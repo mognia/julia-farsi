@@ -41,7 +41,8 @@ export class AminBuysComponent implements OnInit {
   userDoc;
   exchangerDoc;
   //
-
+  haveUserReceipt;
+  haveExchangerReceipt;
   public approveForm: FormGroup;
   public rejectForm: FormGroup;
   public details: any = {};
@@ -78,8 +79,9 @@ export class AminBuysComponent implements OnInit {
         console.log(i.exchangerSubmitDate);
         
         i.exchangerSubmitDate= moment(i.exchangerSubmitDate).format('MM/DD/YYYY');
-    });
       
+    });
+
     });
     this.adminsService.ListApproved().subscribe(data=>{
 
@@ -130,12 +132,31 @@ export class AminBuysComponent implements OnInit {
         this.amount = this.selectedRecipt.amount;
         this.userDoc = this.selectedRecipt.userReceipt;
         this.exchangerDoc = this.selectedRecipt.exchangerReceipt;
+
       }
     });
+
     this.setSeeMore();
   }
   setSeeMore(){
-    this.seeMore = true
+    this.seeMore = true;
+    console.log(this.selectedRecipt);
+    
+    if (!this.selectedRecipt.userReceipt) {
+      
+      this.haveUserReceipt = false;
+    }
+    if (this.selectedRecipt.userReceipt) {
+      
+      this.haveUserReceipt = true;
+    }
+    if (!this.selectedRecipt.exchangerReceipt) {
+      this.haveExchangerReceipt = false;
+    }
+    if (this.selectedRecipt.exchangerReceipt) {
+      
+      this.haveExchangerReceipt = true;
+    }
   }
   approve(){
     this.details.comment =this.approveForm.controls['comment'].value;
